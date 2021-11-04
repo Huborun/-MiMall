@@ -1,0 +1,52 @@
+{
+    "posts": [
+        {
+            "id": 1,
+            "title": "json-server",
+            "author": "typicode"
+        }
+    ],
+    "comments": [
+        {
+            "id": 1,
+            "body": "some comment",
+            "postId": 1
+        }
+    ],
+    "profile": {
+        "name": "typicode"
+    },
+    "phones":[
+        {
+            "id":1,
+            "name":"Xiaomi civi",
+            "src":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/8cad77bda138fd94eadbc2ddfced7c56.png?thumb=1&w=200&h=138&f=webp&q=90",
+            "price":"2599起"
+        },{
+            "id":2,
+            "name":"Xiaomi MIX 4",
+            "src":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/087c52d253d9301dff7743d6bf2d0330.png?thumb=1&w=200&h=138&f=webp&q=90",
+            "price":"4199起"
+        },{
+            "id":3,
+            "name":"Xiaomi MIX FOLD",
+            "src":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/85e44ea2405ff8414148bbde7446b137.png?thumb=1&w=200&h=138&f=webp&q=90",
+            "price":"7499起"
+        },{
+            "id":4,
+            "name":"Xiaomi 11 Ultra",
+            "src":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/1a359e9346e3c6ee8c9d8389e3fd9458.png?thumb=1&w=200&h=138&f=webp&q=90",
+            "price":"5499起"
+        },{
+            "id":5,
+            "name":"Xiaomi 11 Pro",
+            "src":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a1c45eadcedeb27b1cafca0359422da9.png?thumb=1&w=200&h=138&f=webp&q=90",
+            "price":"3999起"
+        },{
+            "id":6,
+            "name":"Xiaomi 11 青春版",
+            "src":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/56e3379b5422cb06e5c8a0c546445606.png?thumb=1&w=200&h=138&f=webp&q=90",
+            "price":"1999起"
+        }
+    ]
+}

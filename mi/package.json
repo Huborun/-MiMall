@@ -5,12 +5,18 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "json-s": "json-server --watch db.json"
   },
   "dependencies": {
+    "@vue/compiler-sfc": "^3.2.20",
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
+    "json-server": "^0.17.0",
     "mockjs": "^1.1.0",
+    "node-sass": "^4.13.0",
+    "sass": "^1.43.4",
+    "sass-loader": "^8.0.0",
     "vue": "^2.6.11",
     "vue-axios": "^3.3.7",
     "vue-router": "^3.5.3"

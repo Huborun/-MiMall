@@ -1,8 +1,132 @@
 <template>
   <div>
-    <div class="topbar">
-      <div class="container">
-        <div class="topbar-navi"></div>
+    <div class="header">
+      <div class="site-topbar">
+        <div class="container">
+          <div class="topbar-navi">
+            <a href="/">小米商城</a><span class="sep">|</span>
+            <a href="javascript:;">MIUI</a><span class="sep">|</span>
+            <a href="javascript:;">loT</a><span class="sep">|</span>
+            <a href="javascript:;">云服务</a><span class="sep">|</span>
+            <a href="javascript:;">天星数科</a><span class="sep">|</span>
+            <a href="javascript:;">有品</a><span class="sep">|</span>
+            <a href="javascript:;">小爱开发平台</a><span class="sep">|</span>
+            <a href="javascript:;">企业团购</a><span class="sep">|</span>
+            <a href="javascript:;">资质证照</a><span class="sep">|</span>
+            <a href="javascript:;">协议规则</a><span class="sep">|</span>
+            <a href="javascript:;">下载app</a><span class="sep">|</span>
+            <a href="javascript:;">智能生活</a><span class="sep">|</span>
+            <a href="javascript:;">Select Location</a>
+          </div>
+          <div class="topbar-cart">
+            <a href="javascript:;" class="cart-mini">
+              <em class="iconfont-cart"></em>
+              购物车
+              <span class="cart-mini-num J_cartNum">（0）</span>
+            </a>
+          </div>
+          <div class="topbar-info">
+            <a href="javascript:;">登录</a><span class="sep">|</span>
+            <a href="javascript:;">注册</a><span class="sep">|</span>
+            <a href="javascript:;">消息通知</a>
+          </div>
+        </div>
+      </div>
+      <div class="site-header">
+        <div class="container">
+          <div class="header-logo">
+            <a href="/" class="milogo"
+              ><img src="../../public/imgs/mi-logo.png"
+            /></a>
+          </div>
+          <div class="header-navi">
+            <ul class="nav-list">
+              <li class="nav-category">
+                <a></a>
+              </li>
+              <li class="nav-item">
+                <a href="javascript:;" class="link">
+                  <span class="text">Xiaomi手机</span>
+                  <div class="phonelist_header">
+                    <div class="phonelist_headerCenter">
+                      <ul>
+                        <li
+                          class="product"
+                          v-for="(item, index) in phoneList"
+                          :key="index"
+                        >
+                          <a
+                            v-bind:href="'/#/product/' + item.id"
+                            target="_blank"
+                          >
+                            <div class="pro-img">
+                              <img :src="item.src" :alt="item.name" />
+                            </div>
+                            <div class="pro-name">{{ item.name }}</div>
+                            <div class="pro-price">
+                              {{ item.price }}
+                            </div>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="javascript:;" class="link"
+                  ><span class="text">Redmi红米</span></a
+                >
+              </li>
+              <li class="nav-item">
+                <a href="javascript:;" class="link"
+                  ><span class="text">电视</span></a
+                >
+              </li>
+              <li class="nav-item">
+                <a href="javascript:;" class="link"
+                  ><span class="text">笔记本</span></a
+                >
+              </li>
+              <li class="nav-item">
+                <a href="javascript:;" class="link"
+                  ><span class="text">平板</span></a
+                >
+              </li>
+              <li class="nav-item">
+                <a href="javascript:;" class="link"
+                  ><span class="text">家电</span></a
+                >
+              </li>
+              <li class="nav-item">
+                <a href="javascript:;" class="link"
+                  ><span class="text">路由器</span></a
+                >
+              </li>
+              <li class="nav-item">
+                <a href="javascript:;" class="link"
+                  ><span class="text">智能硬件</span></a
+                >
+              </li>
+              <li class="nav-item">
+                <a href="javascript:;" class="link"
+                  ><span class="text">服务</span></a
+                >
+              </li>
+              <li class="nav-item">
+                <a href="javascript:;" class="link"
+                  ><span class="text">社区</span></a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="header-search">
+            <form action="" class="search-form clearfix">
+              <input type="text" placeholder="小米11" />
+              <a href="javascript:;"></a>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -10,50 +134,305 @@
 <script>
 export default {
   name: "nav-header",
+  data() {
+    return {
+      phoneList: [],
+    };
+  },
+  mounted() {
+    this.axios({
+      method: "get",
+      url: "http://localhost:3000/phones",
+    }).then((res) => {
+      console.log(res.data);
+      this.phoneList = res.data;
+    });
+  },
 };
 </script>
 
-<style>
-.topbar {
-  -webkit-text-size-adjust: 100%;
-  font: 14px/1.5 Helvetica Neue, Helvetica, Arial, Microsoft Yahei,
-    Hiragino Sans GB, Heiti SC, WenQuanYi Micro Hei, sans-serif;
-  position: relative;
-  z-index: 30;
-  height: 40px;
+<style lang="scss" scoped>
+* {
   font-size: 12px;
-  color: #b0b0b0;
-  background: #333;
 }
 
-.container {
-  -webkit-text-size-adjust: 100%;
-  font: 14px/1.5 Helvetica Neue, Helvetica, Arial, Microsoft Yahei,
-    Hiragino Sans GB, Heiti SC, WenQuanYi Micro Hei, sans-serif;
-  font-size: 12px;
-  color: #b0b0b0;
-  width: 1226px;
-  margin-right: auto;
-  margin-left: auto;
-}
+.header {
+  color: #333;
 
-.topbar-navi {
-  -webkit-text-size-adjust: 100%;
-  --sr-annote-color-0: #b4d9fb;
-  --sr-annote-color-1: #ffeb3b;
-  --sr-annote-color-2: #a2e9f2;
-  --sr-annote-color-3: #a1e0ff;
-  --sr-annote-color-4: #a8ea68;
-  --sr-annote-color-5: #ffb7da;
-  font: 14px/1.5 Helvetica Neue, Helvetica, Arial, Microsoft Yahei,
-    Hiragino Sans GB, Heiti SC, WenQuanYi Micro Hei, sans-serif;
-  font-size: 12px;
+  .site-topbar {
+    position: relative;
+    z-index: 30;
+    height: 40px;
+    color: #b0b0b0;
+    background: #333;
+
+    .container {
+      width: 1226px;
+      margin-right: auto;
+      margin-left: auto;
+      height: 40px;
+
+      .topbar-navi {
+        float: left;
+        line-height: 40px;
+
+        a:hover {
+          color: #ffffff;
+        }
+      }
+
+      .topbar-cart {
+        position: relative;
+        float: right;
+        width: 120px;
+        margin-left: 15px;
+
+        .cart-mini {
+          text-decoration: none;
+          position: relative;
+          z-index: 32;
+          display: block;
+          line-height: 40px;
+          text-align: center;
+          background: #424242;
+
+          .iconfont-cart {
+            text-align: center;
+            color: #b0b0b0;
+            margin-right: 4px;
+            line-height: 20px;
+            vertical-align: -4px;
+          }
+
+          .iconfont-cart:before {
+            content: url("../../public/imgs/购物车.png");
+          }
+
+          .cart-mini-num {
+            line-height: 40px;
+            text-align: center;
+            color: #b0b0b0;
+          }
+        }
+      }
+
+      .topbar-info {
+        position: relative;
+        float: right;
+        line-height: 40px;
+
+        a:hover {
+          color: #ffffff;
+        }
+      }
+    }
+  }
+
+  .site-header {
+    z-index: 20;
+    height: 100px;
+    position: relative;
+
+    .container {
+      width: 1226px;
+      margin-right: auto;
+      margin-left: auto;
+      height: 40px;
+
+      .header-logo {
+        float: left;
+        width: 62px;
+        margin-top: 22px;
+
+        .milogo {
+          background-color: rgba(0, 0, 0, 0);
+          color: #757575;
+          text-decoration: none;
+          text-align: left;
+          position: relative;
+          display: block;
+          width: 56px;
+          height: 56px;
+          overflow: hidden;
+        }
+      }
+
+      .header-navi {
+        float: left;
+        width: 850px;
+
+        .nav-list {
+          z-index: 10;
+          float: left;
+          width: 1100px;
+          height: 88px;
+          margin: 0;
+          padding: 12px 0 0 30px;
+          list-style-type: none;
+          font-size: 16px;
+
+          .nav-category {
+            position: relative;
+            float: left;
+            width: 127px;
+            padding-right: 15px;
+          }
+
+          .nav-item {
+            list-style-type: none;
+            font-size: 16px;
+            float: left;
+
+            .link {
+              list-style-type: none;
+              font-size: 16px;
+              background-color: rgba(0, 0, 0, 0);
+              text-decoration: none;
+              display: block;
+              padding: 26px 10px 38px;
+              color: #333;
+              transition: color 0.2s;
+
+              &:hover {
+                .phonelist_header {
+                  opacity: 1;
+                  height: 220px;
+                }
+              }
+
+              .text {
+                list-style-type: none;
+                font-size: 16px;
+                color: #333;
+
+                &:hover {
+                  color: #ff6700;
+                }
+              }
+
+              .phonelist_header {
+                position: absolute;
+                top: 112px;
+                left: 0;
+                height: 0;
+                width: 100vw;
+                opacity: 0;
+                overflow: hidden;
+                border-top: 1px solid #e5e5e5;
+                box-shadow: 0px 7px 6px 0px rgba(0, 0, 0, 0.11);
+                z-index: 10;
+                transition: all 0.5s;
+
+                .phonelist_headerCenter {
+                  width: 1226px;
+                  margin: 0 auto;
+
+                  .product {
+                    position: relative;
+                    float: left;
+                    width: 16.6%;
+                    height: 220px;
+                    font-size: 12px;
+                    line-height: 12px;
+                    text-align: center;
+
+                    a {
+                      display: inline-block;
+                      line-height: 18px;
+                    }
+                    img {
+                      width: auto;
+                      height: 111px;
+                      margin-top: 26px;
+                    }
+                    .pro-img {
+                      height: 137px;
+                    }
+                    .pro-name {
+                      font-weight: bold;
+                      margin-top: 19px;
+                      margin-bottom: 8px;
+                      color: #333333;
+                    }
+                    .pro-price {
+                      color: #ff6600;
+                    }
+
+                    &:before {
+                      content: " ";
+                      position: absolute;
+                      top: 28px;
+                      right: 0;
+                      border-left: 1px solid #d7d7d7 ;
+                      height: 100px;
+                      width: 1px;
+                    }
+                    &:last-child:before {
+                      display: none;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .header-search {
+        float: right;
+        width: 296px;
+        margin-top: 25px;
+
+        .search-form {
+          position: relative;
+          width: 296px;
+          height: 50px;
+          z-index: 20;
+          border: 1px solid #e0e0e0;
+          display: flex;
+          align-items: center;
+
+          input {
+            border: none;
+            box-sizing: border-box;
+            border-right: 1px solid #e0e0e0;
+            width: 245px;
+            height: 50px;
+            padding-left: 14px;
+            font-size: 16px;
+          }
+
+          a {
+            background: url(../../public/imgs/查询.png) no-repeat;
+            margin-left: 17px;
+            height: 18px;
+            width: 18px;
+          }
+        }
+      }
+    }
+  }
+}
+.clearfix:after,
+.clearfix:before {
+  content: " ";
+  display: table;
+}
+#search {
+  background: url(../../public/imgs/查询.png) no-repeat;
+}
+a {
+  background-color: rgba(0, 0, 0, 0);
+  text-decoration: none;
   color: #b0b0b0;
-  cursor: url("data:image/png;base64,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")
-      0 0,
-    auto;
-  float: left;
-  height: 40px;
   line-height: 40px;
+  display: inline-block;
+}
+
+.sep {
+  line-height: 40px;
+  font-family: sans-serif;
+  margin: 0 6.5px;
+  color: #424242;
 }
 </style>
