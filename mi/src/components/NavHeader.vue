@@ -20,10 +20,10 @@
           </div>
           <div class="topbar-cart">
             <a href="javascript:;" class="cart-mini">
-              <em class="iconfont-cart"></em>
-              购物车
-              <span class="cart-mini-num J_cartNum">（0）</span>
+              <i class="iconfont icon-gouwuchekong"></i>购物车
+              <span class="cart-mini-num">（0）</span>
             </a>
+            <div class="cart-item"><p>购物车中还没有商品，赶紧选购吧!</p></div>
           </div>
           <div class="topbar-info">
             <a href="javascript:;">登录</a><span class="sep">|</span>
@@ -56,9 +56,19 @@
                           :key="index"
                         >
                           <a
-                            v-bind:href="'/#/product/' + item.id"
+                            v-if="item.JumpId"
+                            :href="'/#/product/' + item.id"
                             target="_blank"
                           >
+                            <div class="pro-img">
+                              <img :src="item.src" :alt="item.name" />
+                            </div>
+                            <div class="pro-name">{{ item.name }}</div>
+                            <div class="pro-price">
+                              {{ item.price }}
+                            </div>
+                          </a>
+                          <a v-else href="javascript:;">
                             <div class="pro-img">
                               <img :src="item.src" :alt="item.name" />
                             </div>
@@ -105,11 +115,6 @@
               </li>
               <li class="nav-item">
                 <a href="javascript:;" class="link"
-                  ><span class="text">智能硬件</span></a
-                >
-              </li>
-              <li class="nav-item">
-                <a href="javascript:;" class="link"
                   ><span class="text">服务</span></a
                 >
               </li>
@@ -122,9 +127,27 @@
           </div>
           <div class="header-search">
             <form action="" class="search-form clearfix">
-              <input type="text" placeholder="小米11" />
-              <a href="javascript:;"></a>
+              <input
+                @focus="changeSearch"
+                @blur="disChangeSearch"
+                id="input"
+                type="text"
+                placeholder="小米11"
+              />
+              <div class="search" id="search">
+                <i class="iconfont icon-chaxun"></i>
+              </div>
             </form>
+            <div class="searchRecommend" id="searchRecommend">
+              <div class="recommendedItem">全部商品</div>
+              <div class="recommendedItem">手机</div>
+              <div class="recommendedItem">螺丝刀</div>
+              <div class="recommendedItem">黑鲨4S</div>
+              <div class="recommendedItem">空调</div>
+              <div class="recommendedItem">耳机</div>
+              <div class="recommendedItem">净水器</div>
+              <div class="recommendedItem">红米</div>
+            </div>
           </div>
         </div>
       </div>
@@ -139,19 +162,33 @@ export default {
       phoneList: [],
     };
   },
+  methods: {
+    changeSearch() {
+      let search = document.getElementById("search");
+      search.style.borderColor = "red";
+      let searchRecommend = document.getElementById("searchRecommend");
+      searchRecommend.style.opacity = 1;
+    },
+    disChangeSearch() {
+      let search = document.getElementById("search");
+      search.style.borderColor = "#d7d7d7";
+      let searchRecommend = document.getElementById("searchRecommend");
+      searchRecommend.style.opacity = 0;
+    },
+  },
   mounted() {
     this.axios({
       method: "get",
-      url: "http://localhost:3000/phones",
+      url: "http://localhost:3000/phoneListsMiddle",
     }).then((res) => {
-      console.log(res.data);
-      this.phoneList = res.data;
+      this.phoneList = res.data.slice(0, 6);
     });
   },
 };
 </script>
 
 <style lang="scss" scoped>
+@import url(../../public/MyFont/iconfont.css);
 * {
   font-size: 12px;
 }
@@ -185,33 +222,66 @@ export default {
         position: relative;
         float: right;
         width: 120px;
+        height: 100%;
         margin-left: 15px;
 
         .cart-mini {
+          height: 100%;
           text-decoration: none;
           position: relative;
-          z-index: 32;
           display: block;
           line-height: 40px;
           text-align: center;
           background: #424242;
 
-          .iconfont-cart {
-            text-align: center;
-            color: #b0b0b0;
-            margin-right: 4px;
-            line-height: 20px;
-            vertical-align: -4px;
-          }
-
-          .iconfont-cart:before {
-            content: url("../../public/imgs/购物车.png");
+          .iconfont {
+            margin-right: 5px;
+            font-size: 16px;
           }
 
           .cart-mini-num {
             line-height: 40px;
             text-align: center;
             color: #b0b0b0;
+          }
+        }
+
+        &:hover {
+          .cart-mini {
+            color: #ff6700;
+            background-color: #fff;
+          }
+
+          .cart-mini-num {
+            color: #ff6700;
+          }
+
+          .cart-item {
+            opacity: 1;
+            height: 100px;
+            p {
+              opacity: 1;
+            }
+            transition-duration: 0.5s;
+          }
+        }
+
+        .cart-item {
+          position: absolute;
+          right: 0;
+          width: 316px;
+          height: 0px;
+          background-color: #fff;
+          box-shadow: 0 2px 10px rgb(0 0 0 / 15%);
+
+          font-size: 12px;
+          color: #424242;
+          text-align: center;
+          line-height: 100px;
+
+          opacity: 0;
+          p {
+            opacity: 0;
           }
         }
       }
@@ -289,7 +359,7 @@ export default {
               background-color: rgba(0, 0, 0, 0);
               text-decoration: none;
               display: block;
-              padding: 26px 10px 38px;
+              padding: 26px 10px 0px;
               color: #333;
               transition: color 0.2s;
 
@@ -312,7 +382,7 @@ export default {
 
               .phonelist_header {
                 position: absolute;
-                top: 112px;
+                top: 100px;
                 left: 0;
                 height: 0;
                 width: 100vw;
@@ -322,6 +392,7 @@ export default {
                 box-shadow: 0px 7px 6px 0px rgba(0, 0, 0, 0.11);
                 z-index: 10;
                 transition: all 0.5s;
+                background-color: #ffffff;
 
                 .phonelist_headerCenter {
                   width: 1226px;
@@ -363,7 +434,7 @@ export default {
                       position: absolute;
                       top: 28px;
                       right: 0;
-                      border-left: 1px solid #d7d7d7 ;
+                      border-left: 1px solid #d7d7d7;
                       height: 100px;
                       width: 1px;
                     }
@@ -383,30 +454,92 @@ export default {
         width: 296px;
         margin-top: 25px;
 
+        &:hover {
+          .search-form {
+            .search {
+              border-right: 1px solid #808080;
+              border-top: 1px solid #808080;
+              border-bottom: 1px solid #808080;
+            }
+          }
+        }
+
         .search-form {
           position: relative;
           width: 296px;
           height: 50px;
           z-index: 20;
-          border: 1px solid #e0e0e0;
           display: flex;
           align-items: center;
+
+          .search {
+            width: 51px;
+            height: 100%;
+            position: relative;
+            border-right: 1px solid #d7d7d7;
+            border-top: 1px solid #d7d7d7;
+            border-bottom: 1px solid #d7d7d7;
+            i {
+              display: block;
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              font-size: 18px;
+            }
+
+            &:hover {
+              background-color: #ff6700;
+              cursor: pointer;
+
+              i {
+                color: #fff;
+              }
+            }
+          }
 
           input {
             border: none;
             box-sizing: border-box;
-            border-right: 1px solid #e0e0e0;
+            border: 1px solid #e0e0e0;
             width: 245px;
-            height: 50px;
+            height: 52px;
             padding-left: 14px;
             font-size: 16px;
+            outline: none;
           }
+          &:hover {
+            input {
+              border: 1px solid #808080;
+            }
+          }
+          input:focus {
+            border: 1px #ff6700 solid;
+            &.search {
+              border-right: 1px solid red;
+              border-top: 1px solid #d7d7d7;
+              border-bottom: 1px solid #d7d7d7;
+            }
+          }
+        }
 
-          a {
-            background: url(../../public/imgs/查询.png) no-repeat;
-            margin-left: 17px;
-            height: 18px;
-            width: 18px;
+        .searchRecommend {
+          opacity: 0;
+          width: 242px;
+          height: 236px;
+          border: 1px solid #ff6700;
+          background-color: #fff;
+
+          .recommendedItem {
+            width: 243px;
+            height: 29.6px;
+            font-size: 12px;
+            color: #333;
+            font-family: Helvetica Neue, Helvetica, Arial, Microsoft Yahei,
+              Hiragino Sans GB, Heiti SC, WenQuanYi Micro Hei, sans-serif;
+            position: relative;
+            left: 15px;
+            top: 7px;
           }
         }
       }
@@ -417,9 +550,6 @@ export default {
 .clearfix:before {
   content: " ";
   display: table;
-}
-#search {
-  background: url(../../public/imgs/查询.png) no-repeat;
 }
 a {
   background-color: rgba(0, 0, 0, 0);

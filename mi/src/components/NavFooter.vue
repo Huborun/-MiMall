@@ -9,22 +9,22 @@
         </div>
         <div class="service">
           <a href="javascript:;"
-            ><i class="iconfont icon-7tianbaotui"></i>7天无理由退货</a
+            ><i class="iconfont icon-7tianbaotui"></i>天无理由退货</a
           >
         </div>
         <div class="service">
           <a href="javascript:;"
-            ><i class="iconfont icon-15tianbaotui01"></i>715天免费换货</a
+            ><i class="iconfont icon-15tianbaotui01"></i>15天免费换货</a
           >
         </div>
         <div class="service">
           <a href="javascript:;"
-            ><i class="iconfont icon-liwuhuodong"></i>7满69包邮</a
+            ><i class="iconfont icon-liwuhuodong"></i>满69包邮</a
           >
         </div>
         <div class="service">
           <a href="javascript:;"
-            ><i class="iconfont icon-weizhi"></i>7520余家售后网点</a
+            ><i class="iconfont icon-weizhi"></i>520余家售后网点</a
           >
         </div>
       </div>
@@ -88,8 +88,8 @@ export default {
 <style lang="scss" scoped>
 @import url(../../public/MyFont/iconfont.css);
 .footer {
-  position: absolute;
-  bottom: 0;
+  // position: absolute;
+  // bottom: 0;
 
   width: 100%;
   .footer-service {

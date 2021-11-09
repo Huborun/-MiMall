@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import VueLazyLoad from 'vue-lazyload'
 
 Vue.config.productionTip = false
 
@@ -23,6 +24,10 @@ axios.defaults.timeout = 10000;
 // });
 
 Vue.use(VueAxios,axios);
+Vue.use(VueLazyLoad,{
+  // loading:'../public/imgs/loading-bars.svg'
+  loading:"/imgs/loading-bars.svg"
+})
 new Vue({
   router,
   render: h => h(App),

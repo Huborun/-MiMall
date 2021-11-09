@@ -16,37 +16,313 @@
     "profile": {
         "name": "typicode"
     },
-    "phones":[
+    "phoneListsSmall": [
+        {
+            "ItemId": 1,
+            "name": "Note 11 Pro系列",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a95d59ec8c9c6ae7061f314eb4901e7c.png?thumb=1&w=50&h=50&f=webp&q=90",
+            "JumpId": 2
+        },
+        {
+            "ItemId": 2,
+            "name": "Xiaomi 11 Ultra",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a1241b5a94ba1739e85f72d46592af0e.png?thumb=1&w=50&h=50&f=webp&q=90",
+            "JumpId": 1
+        },
+        {
+            "ItemId": 3,
+            "name": "Note 10 5G",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/79e2935264bf9247aa7512e330112820.png?thumb=1&w=50&h=50&f=webp&q=90"
+        },
+        {
+            "ItemId": 4,
+            "name": "Redmi Note 9 4G",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/947721c8bc4a4ecc3bca17237ee64dea.png?thumb=1&w=50&h=50&f=webp&q=90"
+        },
+        {
+            "ItemId": 5,
+            "name": "Note 11 5G",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ca3caca774dc8be0a453c90d1fa58e13.png?thumb=1&w=50&h=50&f=webp&q=90"
+        },
+        {
+            "ItemId": 6,
+            "name": "Xiaomi 11 Pro",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/6cf44dfe89111cb35e1a2211481ff546.png?thumb=1&w=50&h=50&f=webp&q=90"
+        },
+        {
+            "ItemId": 7,
+            "name": "Note 10 Pro",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/56bb7e2d44cef71c3afedaeae3d98927.png?thumb=1&w=50&h=50&f=webp&q=90"
+        },
+        {
+            "ItemId": 8,
+            "name": "Redmi Note 9 5G",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/970c6b287eb89620f5ee8e2b347f6f3d.png?thumb=1&w=50&h=50&f=webp&q=90"
+        },
+        {
+            "ItemId": 9,
+            "name": "Redmi K40",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/92fdd051100722d25323e9bd188befc5.png?thumb=1&w=50&h=50&f=webp&q=90",
+            "JumpId": 5
+        },
+        {
+            "ItemId": 10,
+            "name": "Xiaomi 11",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a51c1afa4db8e47e62fad1f6fa4a8970.png?thumb=1&w=50&h=50&f=webp&q=90"
+        },
+        {
+            "ItemId": 11,
+            "name": "Redmi 9A",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/1db88cd66ff1a6a3e75116988b7f3e12.jpg?thumb=1&w=50&h=50&f=webp&q=90"
+        },
+        {
+            "ItemId": 12,
+            "name": "Redmi Note 9 Pro",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/76378ce289a36fcfa29f704ba90b4155.png?thumb=1&w=50&h=50&f=webp&q=90"
+        },
+        {
+            "ItemId": 13,
+            "name": "Xiaomi Civi",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/f33903e1162959f500360a39896f2306.png?thumb=1&w=50&h=50&f=webp&q=90"
+        },
+        {
+            "ItemId": 14,
+            "name": "Xiaomi 10S",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c89e7b3a3495acaa0a4df271d9da59ea.png?thumb=1&w=50&h=50&f=webp&q=90"
+        },
+        {
+            "ItemId": 15,
+            "name": "Xiaomi 11 青春",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/72bd70039670d29610569421f753fcb6.png?thumb=1&w=50&h=50&f=webp&q=90"
+        },
+        {
+            "ItemId": 16,
+            "name": "Redmi 9",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/0cadc8b00dbe3b5615bd6ab657715baf.png?thumb=1&w=50&h=50&f=webp&q=90"
+        },
+        {
+            "ItemId": 17,
+            "name": "Xiaomi MIX 4",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/fa2bae1f43611e80a8e4877719c76bdb.png?thumb=1&w=50&h=50&f=webp&q=90",
+            "JumpId": 3
+        },
+        {
+            "ItemId": 18,
+            "name": "K40 游戏增强版",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ab956ee82c24bdd83d21bc212aad3eb5.png?thumb=1&w=50&h=50&f=webp&q=90"
+        },
+        {
+            "ItemId": 19,
+            "name": "黑鲨4S Pro",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/b45cbcf2bbe244982b2e865fa5077a52.png?thumb=1&w=50&h=50&f=webp&q=90"
+        },
+        {
+            "ItemId": 20,
+            "name": "Redmi 8A",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/77bfd346ad97807237beca297cfe2fba.png?thumb=1&w=50&h=50&f=webp&q=90"
+        },
+        {
+            "ItemId": 21,
+            "name": "Xiaomi MIX FOLD",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ab345272bf9894bb8269d4901344b068.png?thumb=1&w=50&h=50&f=webp&q=90",
+            "JumpId": 4
+        },
+        {
+            "ItemId": 22,
+            "name": "K40 Pro 系列",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/0e5aa3cab478f5eeba1c7d4cf25cba9a.png?thumb=1&w=50&h=50&f=webp&q=90"
+        },
+        {
+            "ItemId": 23,
+            "name": "黑鲨4S",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/958d5b4cf1f6a755b97b797f4cec67ed.png?thumb=1&w=50&h=50&f=webp&q=90"
+        },
+        {
+            "ItemId": 24,
+            "name": "黑鲨4",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/7b7e7228d1708665b7e6fe5e07ad4929.png?thumb=1&w=50&h=50&f=webp&q=90"
+        }
+    ],
+    "phoneListsMiddle": [
+        {
+            "id": 1,
+            "name": "Xiaomi civi",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/8cad77bda138fd94eadbc2ddfced7c56.png?thumb=1&w=200&h=138&f=webp&q=90",
+            "price": "2599起"
+        },
+        {
+            "id": 2,
+            "name": "Xiaomi MIX 4",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/087c52d253d9301dff7743d6bf2d0330.png?thumb=1&w=200&h=138&f=webp&q=90",
+            "price": "4199起",
+            "JumpId": 3
+        },
+        {
+            "id": 3,
+            "name": "Xiaomi MIX FOLD",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/85e44ea2405ff8414148bbde7446b137.png?thumb=1&w=200&h=138&f=webp&q=90",
+            "price": "7499起",
+            "JumpId": 4
+        },
+        {
+            "id": 4,
+            "name": "Xiaomi 11 Ultra",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/1a359e9346e3c6ee8c9d8389e3fd9458.png?thumb=1&w=200&h=138&f=webp&q=90",
+            "price": "5499起",
+            "JumpId": 1
+        },
+        {
+            "id": 5,
+            "name": "Xiaomi 11 Pro",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a1c45eadcedeb27b1cafca0359422da9.png?thumb=1&w=200&h=138&f=webp&q=90",
+            "price": "3999起"
+        },
+        {
+            "id": 6,
+            "name": "Xiaomi 11 青春版",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/56e3379b5422cb06e5c8a0c546445606.png?thumb=1&w=200&h=138&f=webp&q=90",
+            "price": "1999起"
+        }
+    ],
+    "slides": [
+        {
+            "id": 1,
+            "name": "Redmi Note 11 Pro",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/d2082a18632ef1f7aa06d90b39a8c06b.jpg?w=2452&h=920",
+            "JumpId": 2
+        },
+        {
+            "id": 2,
+            "name": "Xiaomi 11 Ultra",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/6fae8cbea12505f89b350c48d407441a.jpg?thumb=1&w=1533&h=575&f=webp&q=90",
+            "JumpId": 1
+        },
+        {
+            "id": 3,
+            "name": "RedmiBook Pro 15 增强版",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/918820682e4a490221cfd92b24c14b86.jpg?thumb=1&w=1533&h=575&f=webp&q=90"
+        },
+        {
+            "id": 4,
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c568030fd3637ac46f753a46bc244c9f.jpg?thumb=1&w=1533&h=575&f=webp&q=90"
+        }
+    ],
+    "adOnIndex": [
+        {
+            "id": 1,
+            "name": "Xiaomi 11 Ultra",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/d8a6d6d37904e22c72130e3e4ec79b41.jpg?w=632&h=340",
+            "JumpId": 1
+        },
+        {
+            "id": 2,
+            "name": "Xiaomi MIX FOLD",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/fce474f4024b96545959ccd45b7e50f3.jpg?w=632&h=340",
+            "JumpId": 4
+        },
+        {
+            "id": 3,
+            "name": "Remid Buds 3",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/35b3f906861db9d6472206e6d68318d9.jpeg?w=632&h=340"
+        },
+        {
+            "id": 4,
+            "name": "Redmi K40",
+            "src": "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/f334fbd05d5681bb838fefd1c815d88c.jpg?thumb=1&w=1533&h=150&f=webp&q=90",
+            "JumpId": 5
+        }
+    ],
+    "phonesOnIndex": [
         {
             "id":1,
-            "name":"Xiaomi civi",
-            "src":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/8cad77bda138fd94eadbc2ddfced7c56.png?thumb=1&w=200&h=138&f=webp&q=90",
-            "price":"2599起"
+            "name":"Xiaomi MIX FOLD",
+            "src":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c583f2edc613f1be20fa415910b13ce3.jpg?thumb=1&w=293&h=768&f=webp&q=90",
+            "JumpId":4
         },{
             "id":2,
-            "name":"Xiaomi MIX 4",
-            "src":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/087c52d253d9301dff7743d6bf2d0330.png?thumb=1&w=200&h=138&f=webp&q=90",
-            "price":"4199起"
+            "name":"Redmi Note 11 Pro 系列",
+            "sketch":"Redmi Note 11 Pro 系列",
+            "src":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/6d0a3e7acc3e91e2cfd83dbbe1d1c029.jpg?thumb=1&w=250&h=250&f=webp&q=90",
+            "price":"1799元起",
+            "JumpId":2
         },{
             "id":3,
-            "name":"Xiaomi MIX FOLD",
-            "src":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/85e44ea2405ff8414148bbde7446b137.png?thumb=1&w=200&h=138&f=webp&q=90",
-            "price":"7499起"
-        },{
+            "name":"Redmi Note 11 5G",
+            "sketch":"5000mAh大电量",
+            "src":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/50da95e9e4496dcac8704da2deb94f6e.jpg?thumb=1&w=250&h=250&f=webp&q=90",
+            "price":"1199元起"
+        }
+        ,{
             "id":4,
-            "name":"Xiaomi 11 Ultra",
-            "src":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/1a359e9346e3c6ee8c9d8389e3fd9458.png?thumb=1&w=200&h=138&f=webp&q=90",
-            "price":"5499起"
-        },{
+            "name":"黑鲨4S",
+            "sketch":"磁动力升降肩键",
+            "src":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/7290b681343512c60e3a845379f3335f.jpg?thumb=1&w=250&h=250&f=webp&q=90",
+            "price":"2699元起"
+        }
+        ,{
             "id":5,
-            "name":"Xiaomi 11 Pro",
-            "src":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a1c45eadcedeb27b1cafca0359422da9.png?thumb=1&w=200&h=138&f=webp&q=90",
-            "price":"3999起"
-        },{
+            "name":"黑鲨4S Pro",
+            "sketch":"磁动力升降肩键",
+            "src":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/3490cfc52dc7c9abf9badfa1dc2d0eae.png?thumb=1&w=250&h=250&f=webp&q=90",
+            "price":"5499元"
+        }
+        ,{
             "id":6,
-            "name":"Xiaomi 11 青春版",
-            "src":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/56e3379b5422cb06e5c8a0c546445606.png?thumb=1&w=200&h=138&f=webp&q=90",
-            "price":"1999起"
+            "name":"Xiaomi Civi",
+            "sketch":"3200万高清质感自拍",
+            "src":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c5c752522100ecd364cc53752bb660bc.jpg?thumb=1&w=250&h=250&f=webp&q=90",
+            "price":"2599元起"
+        }
+        ,{
+            "id":7,
+            "name":"Xiaomi MIX 4",
+            "sketch":"CUP全面屏",
+            "src":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ab07e0fcbec3beb8b0f409db8bee8da4.jpg?thumb=1&w=250&h=250&f=webp&q=90",
+            "price":"4199元起",
+            "oldprice":"4999元",
+            "JumpId": 3
+        }
+        ,{
+            "id":8,
+            "name":"Redmi Note 10 Pro",
+            "sketch":"天玑1100年度旗舰芯",
+            "src":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/61454401f855cf5ed64747a6ac04bae5.jpg?thumb=1&w=250&h=250&f=webp&q=90",
+            "price":"1499元起",
+            "oldprice":"1699元"
+        }
+        ,{
+            "id":9,
+            "name":"Redmi Note 10 5G",
+            "sketch":"5G小金刚｜旗舰长续航",
+            "src":"https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/8909080ddb0851af0b87530e2927844f.jpg?thumb=1&w=250&h=250&f=webp&q=90",
+            "price":"1099元起"
+        }
+    ],
+    "itemShow": [
+        {
+            "id": 1,
+            "sketch": "Xiaomi 11 Ultra",
+            "JumpId": 1
+        },
+        {
+            "id": 2,
+            "sketch": "Redmi Note 11 Pro",
+            "JumpId": 2
+        },
+        {
+            "id": 3,
+            "sketch": "Xiaomi MIX 4",
+            "JumpId": 3
+        },
+        {
+            "id": 4,
+            "sketch": "Xiaomi MIX FOLD",
+            "JumpId": 4
+        },
+        {
+            "id": 5,
+            "sketch": "Redmi K40",
+            "JumpId": 5
         }
     ]
 }

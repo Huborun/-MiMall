@@ -9,15 +9,25 @@
     <link rel="stylesheet" href="../public/MyFont/iconfont.css">
     <title>Document</title>
     <style>
-        .icon-liwuhuodong{
-            font-size:40px;
-            color:red;
+        input {
+            width: 300px;
+            height: 100px;
+            border: 1px solid black;
+            outline:none;
         }
     </style>
 </head>
 
 <body>
-    <i class="iconfont icon-liwuhuodong"></i>12121
+    <input type="text" id="input">
 </body>
+
+<script>
+    let input = document.getElementById("input");
+    input.addEventListener("click", () => {
+        input.style.borderColor = "red";
+    })
+
+</script>
 
 </html>
