@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="center-login">
-        <div class="login">
+        <div :class="{login:true,'login1':(click1+click2)==1,'login2':(click1+click2)>1}">
           <div class="login-header"><span>登录</span> <span>注册</span></div>
           <div
             :class="{
@@ -736,6 +736,14 @@ export default {
           letter-spacing:20px;
         }
       }
+    }
+
+    .login1{
+      height: 506px;
+    }
+
+    .login2{
+      height: 536px;
     }
   }
 
