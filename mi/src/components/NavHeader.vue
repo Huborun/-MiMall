@@ -26,7 +26,7 @@
             <div class="cart-item"><p>购物车中还没有商品，赶紧选购吧!</p></div>
           </div>
           <div class="topbar-info">
-            <a href="javascript:;">登录</a><span class="sep">|</span>
+            <a href="/#/login">登录</a><span class="sep">|</span>
             <a href="javascript:;">注册</a><span class="sep">|</span>
             <a href="javascript:;">消息通知</a>
           </div>
