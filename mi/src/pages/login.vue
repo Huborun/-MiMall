@@ -20,7 +20,13 @@
         </div>
       </div>
       <div class="center-login">
-        <div :class="{login:true,'login1':(click1+click2)==1,'login2':(click1+click2)>1}">
+        <div
+          :class="{
+            login: true,
+            login1: click1 + click2 == 1,
+            login2: click1 + click2 > 1,
+          }"
+        >
           <div class="login-header"><span>登录</span> <span>注册</span></div>
           <div
             :class="{
@@ -90,11 +96,25 @@
               ></i>
             </div>
           </div>
-          <div class="hint2" v-if="user_password == '' && click2 != 0">
-            请输入登录密码
+          <div
+            class="hint2"
+            v-if="(user_password == '' && click2 != 0) || data.length == 0"
+          >
+            <span v-if="user_password == '' && click2 != 0"
+              >请输入登录密码</span
+            >
+            <span v-if="data.length == 0">用户名或密码不正确</span>
+          </div>
+          <div :class="{ notification: true, notification_display: display }">
+            <i class="iconfont icon-gantanhao"></i>请您同意用户条款
           </div>
           <div class="confirm">
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              id="confirmButton"
+              :checked="checked"
+              @click="changeChecked"
+            />
             已阅读并同意小米帐号
             <p>用户协议</p>
             和
@@ -112,7 +132,7 @@
               :class="{
                 'button-active': user_password != '' && user_name != '',
               }"
-              @click="test"
+              @click="login"
             />
           </div>
           <div class="forget">
@@ -168,6 +188,9 @@ export default {
       click2: 0,
       isVisible: false, //是否可视
       passwordOrText: "password", //密码框还是文本框
+      checked: false,
+      display: false,
+      data: [""],
     };
   },
   methods: {
@@ -290,6 +313,86 @@ export default {
       if (this.passwordOrText == "password") this.passwordOrText = "text";
       else this.passwordOrText = "password";
       this.isVisible = !this.isVisible;
+    },
+    changeChecked() {
+      this.checked = !this.checked;
+      // this.display = !this.display;
+    },
+    login() {
+      if (this.checked) {
+        var url = `http://localhost:3000/user?userName=${this.user_name}&userPwd=${this.user_password}`;
+        console.log(url)
+        this.axios({
+          method: "get",
+          url,
+        }).then((response) => {
+          this.data = response.data;
+          // console.log(this.data);
+          if (this.data.length > 0) {
+            //事先清空cookie
+            this.$cookie.delete("userId");
+            this.$cookie.set("userId", response.data[0].userId);
+
+            //设置Vuex
+            this.$store.dispatch("clear");
+            this.$store.dispatch("setuserid", response.data[0].userId);
+            this.$store.dispatch("setusername", response.data[0].userName);
+
+            //存放用户购物车信息
+            var cartList = response.data[0].cartList;
+            if (cartList.length == 0) {
+              this.$store.dispatch("setcartlist", []);
+            } else {
+              // var res = this.getData(cartList)
+              // console.log("res",res)
+              var dispatchCartlist = [];
+              cartList.forEach((cart) => {
+                var url = `http://localhost:3000/phoneListsSmall?ItemId=${cart}`;
+                this.axios({
+                  method: "get",
+                  url,
+                }).then((response) => {
+                  dispatchCartlist = dispatchCartlist.concat(response.data);
+                  // this.$store.dispatch("clearcart")
+                  // console.log("111111",this.$store.state.cartList)
+                  this.$store.dispatch("setcartlist", dispatchCartlist);
+                  console.log("dispatchCartlist", dispatchCartlist);
+                  console.log("222222", this.$store.state.cartList);
+                });
+              });
+              // console.log("listlistlist",dispatchCartlist);
+              // this.$store.dispatch("setcartlist", dispatchCartlist);
+              this.$router.push("/index");
+            }
+
+            //存放用户订单信息
+            /*
+            var orderList = response.data[0].orderList;
+            if (orderList.length == 0) {
+              this.$store.dispatch("setorderlist", []);
+            } else {
+              var dispatchOrderlist = [];
+              orderList.forEach((order) => {
+                var url = `http://localhost:3000/phoneListsSmall?ItemId=${order}`;
+                this.axios({
+                  method: "get",
+                  url,
+                }).then((response) => {
+                  dispatchOrderlist = dispatchOrderlist.concat(response.data);
+                });
+              });
+              console.log(dispatchOrderlist);
+              this.$store.dispatch("setorderlist", dispatchOrderlist);
+            }
+            */
+          }
+        });
+      } else {
+        this.display = true;
+        setTimeout(() => {
+          this.display = false;
+        }, 3000);
+      }
     },
   },
 };
@@ -504,6 +607,7 @@ export default {
       }
 
       .hint2 {
+        position: relative;
         width: 356px;
         height: 20px;
         margin-top: 10px;
@@ -514,6 +618,16 @@ export default {
           "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
           "Noto Color Emoji";
         text-align: left;
+
+        span:nth-child(1) {
+          position: absolute;
+          left: 0px;
+        }
+
+        span:nth-child(2) {
+          position: absolute;
+          left: 0px;
+        }
       }
 
       .login_password {
@@ -619,6 +733,33 @@ export default {
 
       .input_true_blur {
         border: 1px solid #f9f9f9;
+      }
+
+      .notification {
+        display: none;
+        width: 180px;
+        height: 41px;
+        line-height: 41px;
+        text-align: center;
+        position: absolute;
+        left: 30%;
+        background-color: #fff;
+        z-index: 10;
+        border: 1px solid #dedede;
+        border-radius: 3px;
+        font-family: "MI Lan Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+          "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+          "Noto Color Emoji";
+        font-size: 14px;
+        color: #343434;
+        .iconfont {
+          margin-right: 10px;
+        }
+      }
+
+      .notification_display {
+        display: block;
       }
 
       .confirm {
@@ -729,20 +870,20 @@ export default {
       .icons {
         width: 250px;
         height: 51px;
-        margin:20px auto;
+        margin: 20px auto;
         .iconfont {
           cursor: pointer;
           font-size: 46px;
-          letter-spacing:20px;
+          letter-spacing: 20px;
         }
       }
     }
 
-    .login1{
+    .login1 {
       height: 506px;
     }
 
-    .login2{
+    .login2 {
       height: 536px;
     }
   }

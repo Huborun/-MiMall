@@ -248,7 +248,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import url(../../public/MyFont/iconfont.css);
+@import url(../../public/MyFontSolid/iconfont.css);
 .root {
   .home-hero {
     width: 1226px;

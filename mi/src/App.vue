@@ -11,7 +11,14 @@ export default {
   data() {
     return {};
   },
-  mounted() {},
+  mounted() {
+    //开始时，清空所有cookie，防止冲突
+    this.$cookie.delete("userId");
+  },
+  beforeDestroy() {
+    this.$store.dispatch("clear");
+    this.$cookie.delete("userId");
+  },
 };
 </script>
 

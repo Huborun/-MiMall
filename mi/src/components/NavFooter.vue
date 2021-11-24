@@ -86,7 +86,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import url(../../public/MyFont/iconfont.css);
+@import url(../../public/MyFontSolid/iconfont.css);
 .footer {
   // position: absolute;
   // bottom: 0;

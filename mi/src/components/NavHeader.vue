@@ -20,15 +20,42 @@
           </div>
           <div class="topbar-cart">
             <a href="javascript:;" class="cart-mini">
-              <i class="iconfont icon-gouwuchekong"></i>购物车
-              <span class="cart-mini-num">（0）</span>
+              <i class="iconfont icon-gouwuchekong" v-if="cartAmount==0"></i>
+              <i class="iconfont icon-gouwucheman" v-if="cartAmount!=0"></i>
+              购物车
+              <span class="cart-mini-num">{{cartAmount}})</span>
             </a>
-            <div class="cart-item"><p>购物车中还没有商品，赶紧选购吧!</p></div>
+            <div v-if="cartAmount==0" class="cart-list"><p>购物车中还没有商品，赶紧选购吧!</p></div>
+            <div v-if="cartAmount!=0" class="cart-list-full" >
+              <div class="cart-list" v-for="(cart,index) in cartList" :key="index">
+                <div class="cart-list-item">{{cart.cartName}}</div>
+                <div class="cart-list-item">{{cart.price}}</div>
+                <div class="cart-list-item">{{cart.amount}}</div>
+              </div>
+              <div class="cart-list-amount"></div>
+            </div>
           </div>
-          <div class="topbar-info">
+          <div class="topbar-info" v-if="!login">
             <a href="/#/login">登录</a><span class="sep">|</span>
             <a href="javascript:;">注册</a><span class="sep">|</span>
             <a href="javascript:;">消息通知</a>
+          </div>
+          <div class="topbar-login" v-if="login">
+            <span class="user-name"
+              ><p>{{ $store.state.userName }}</p>
+              <i v-if="login" class="iconfont icon-xiangxia"></i>
+              <div class="showDetails">
+                <a href="javascript:;">个人中心</a>
+                <a href="javascript:;">评价晒单</a>
+                <a href="javascript:;">我的喜欢</a>
+                <a href="javascript:;">小米账户</a>
+                <a href="/#/login">退出登录</a>
+              </div>
+            </span>
+            <span class="sep">|</span>
+            <span class="user-message">消息通知</span>
+            <span class="sep">|</span>
+            <span class="user-order">我的订单</span>
           </div>
         </div>
       </div>
@@ -160,6 +187,9 @@ export default {
   data() {
     return {
       phoneList: [],
+      orderList: [],
+      login: false,
+      userName: "",
     };
   },
   methods: {
@@ -177,18 +207,47 @@ export default {
     },
   },
   mounted() {
+    //获取手机相关图片
     this.axios({
       method: "get",
       url: "http://localhost:3000/phoneListsMiddle",
     }).then((res) => {
       this.phoneList = res.data.slice(0, 6);
     });
+
+    //获取登入用户信息
+    if (this.$cookie.get("userId")) {
+      console.log(this.$store.state.cartList)
+      this.login = true;
+      var url = `http://localhost:3000/user?userId=${this.$cookie.get("userId")}`;
+      this.axios({
+        method: "get",
+        url,
+      }).then((response) => {
+        this.userName = response.data[0].userName;
+        this.orderList = response.data[0].orderList;
+        this.cartList = response.data[0].cartList;
+      });
+    }
   },
+  computed:{
+    cartAmount(){
+      if(!this.login){
+        return 0
+      }else{
+        return this.$store.state.cartList.length
+      }
+    },
+    cartList(){
+      console.log(this.$store.state.cartList)
+        return this.$store.state.cartList
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-@import url(../../public/MyFont/iconfont.css);
+@import url(../../public/MyFontSolid/iconfont.css);
 * {
   font-size: 12px;
 }
@@ -198,7 +257,6 @@ export default {
 
   .site-topbar {
     position: relative;
-    z-index: 30;
     height: 40px;
     color: #b0b0b0;
     background: #333;
@@ -225,11 +283,39 @@ export default {
         height: 100%;
         margin-left: 15px;
 
+        .cart-list {
+          z-index: 21;
+          position: absolute;
+          right: 0;
+          width: 316px;
+          height: 0px;
+          background-color: #fff;
+          box-shadow: 0 2px 10px rgb(0 0 0 / 15%);
+
+          font-size: 12px;
+          color: #424242;
+          text-align: center;
+          transition-duration: 0.5s;
+
+          opacity: 0;
+          p {
+            position: absolute;
+            top: 45%;
+            left: 20%;
+            opacity: 0;
+          }
+        }
+
+        .cart-list-full{
+
+        }
+
         .cart-mini {
           height: 100%;
           text-decoration: none;
           position: relative;
           display: block;
+          z-index: 100;
           line-height: 40px;
           text-align: center;
           background: #424242;
@@ -256,32 +342,13 @@ export default {
             color: #ff6700;
           }
 
-          .cart-item {
+          .cart-list {
             opacity: 1;
             height: 100px;
             p {
               opacity: 1;
             }
             transition-duration: 0.5s;
-          }
-        }
-
-        .cart-item {
-          position: absolute;
-          right: 0;
-          width: 316px;
-          height: 0px;
-          background-color: #fff;
-          box-shadow: 0 2px 10px rgb(0 0 0 / 15%);
-
-          font-size: 12px;
-          color: #424242;
-          text-align: center;
-          line-height: 100px;
-
-          opacity: 0;
-          p {
-            opacity: 0;
           }
         }
       }
@@ -293,6 +360,100 @@ export default {
 
         a:hover {
           color: #ffffff;
+        }
+      }
+
+      .topbar-login {
+        width: 265px;
+        position: relative;
+        float: right;
+        line-height: 40px;
+        cursor: pointer;
+
+        .user-order {
+          text-align: center;
+          display: inline-block;
+          width: 60px;
+
+          &:hover {
+            color: #fff;
+          }
+        }
+
+        .user-message {
+          text-align: center;
+          display: inline-block;
+          width: 60px;
+          &:hover {
+            color: #fff;
+          }
+        }
+
+        .user-name {
+          text-align: center;
+          display: inline-block;
+          width: 100px;
+
+          position: relative;
+
+          p {
+            display: inline-block;
+            font-family: Helvetica Neue, Helvetica, Arial, Microsoft Yahei,
+              Hiragino Sans GB, Heiti SC, WenQuanYi Micro Hei, sans-serif;
+            &:hover {
+              color: #ff6700;
+            }
+          }
+          .iconfont {
+            font-size: 12px;
+            position: absolute;
+            right: 4px;
+            top: -2px;
+            &:hover {
+              color: #ff6700;
+            }
+          }
+
+          &:hover {
+            transition-duration: 0.3s;
+            background-color: #fff;
+            p {
+              color: #ff6700;
+            }
+            .iconfont {
+              color: #ff6700;
+            }
+            .showDetails {
+              opacity: 1;
+            }
+          }
+
+          .showDetails {
+            opacity: 0;
+
+            position: absolute;
+            top: 40px;
+            width: 100px;
+            // height: 150px;
+            font-size: 12px;
+            background-color: #fff;
+            z-index: 22;
+            a {
+              display: block;
+              width: 50px;
+              height: 24px;
+              padding: 3px 25px 3px 25px;
+              line-height: 24px;
+              font-family: Helvetica Neue, Helvetica, Arial, Microsoft Yahei,
+                Hiragino Sans GB, Heiti SC, WenQuanYi Micro Hei, sans-serif;
+              color: #424242;
+            }
+
+            a:hover {
+              background-color: #f5f5f5;
+              color: #ff6700;
+            }
+          }
         }
       }
     }
@@ -352,6 +513,7 @@ export default {
             list-style-type: none;
             font-size: 16px;
             float: left;
+            height: 100%;
 
             .link {
               list-style-type: none;
@@ -359,7 +521,8 @@ export default {
               background-color: rgba(0, 0, 0, 0);
               text-decoration: none;
               display: block;
-              padding: 26px 10px 0px;
+              padding: 2px 10px 0px;
+              margin-top: 20px;
               color: #333;
               transition: color 0.2s;
 
@@ -468,7 +631,6 @@ export default {
           position: relative;
           width: 296px;
           height: 50px;
-          z-index: 20;
           display: flex;
           align-items: center;
 
