@@ -1,4 +1,6 @@
 ## 组件拆分
+### 公共组件
+* 商铺小图标列表CategoryList
 ### 主页的组件
 * 轮播图组件RotationChart
 ## 部分实现方式
