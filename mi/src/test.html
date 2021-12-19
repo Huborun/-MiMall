@@ -6,33 +6,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        .div1 {
+            width: 800px;
+            height: 400px;
+            border: 1px solid #abc;
+            position: relative;
+        }
+
+        .div2{
+            position: absolute;
+            top:50%;
+            left:50%;
+            transform: translate(-50%, -50%);
+            height: 100px;
+            display: flex;
+        }
+
+        .div3 {
+            float: left;
+            margin-left: 50px;
+            width: 200px;
+            height: 100px;
+            background-color: #bfa;
+        }
+    </style>
 </head>
 
 <body>
-    <div>
+    <div class="div1">
+        <div class="div2">
+            <div class="div3">
+            </div>
+            <div class="div3">
+            </div>
+        </div>
+
     </div>
-    <script>
-        var url = `http://localhost:3000/user?userName=H&userPwd=a`;
-        async function getData() {
-            let result = await axios.get(url)
-            let lists = result.data[0].cartList
-            let phonesList = []
-            // console.log(lists)
-            lists.forEach(async (item,index) => {
-                var url = `http://localhost:3000/phoneListsSmall?ItemId=${item}`
-                let phone = await axios.get(url)
-                console.log(phone.data[0].name)
-                phonesList.push(phone.data[0].name)
-                console.log("phonesList",phonesList)
-                console.log(index)
-            })
-            // setTimeout(() => {
-            //     console.log(phonesList[0])
-            // })
-        }
-        getData()
-    </script>
 </body>
 
 </html>

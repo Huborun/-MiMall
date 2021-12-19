@@ -98,12 +98,12 @@
           </div>
           <div
             class="hint2"
-            v-if="(user_password == '' && click2 != 0) || data.length == 0"
+            v-if="(user_password == '' && click2 != 0) || userInfo.length == 0"
           >
             <span v-if="user_password == '' && click2 != 0"
               >请输入登录密码</span
             >
-            <span v-if="data.length == 0">用户名或密码不正确</span>
+            <span v-if="userInfo.length == 0">用户名或密码不正确</span>
           </div>
           <div :class="{ notification: true, notification_display: display }">
             <i class="iconfont icon-gantanhao"></i>请您同意用户条款
@@ -155,6 +155,7 @@
 </template>
 
 <script>
+import setMsg from "../js/setMsg";
 export default {
   data() {
     return {
@@ -190,13 +191,10 @@ export default {
       passwordOrText: "password", //密码框还是文本框
       checked: false,
       display: false,
-      data: [""],
+      userInfo: [""],
     };
   },
   methods: {
-    test() {
-      console.log("12121");
-    },
     changeWhenFocus() {
       if (this.user_name == "" && this.click1 != 0) {
         this.wrongInputLabel = true;
@@ -319,72 +317,24 @@ export default {
       // this.display = !this.display;
     },
     login() {
+      //第一次登陆时，将设置Vuex
       if (this.checked) {
+        //已经同意
         var url = `http://localhost:3000/user?userName=${this.user_name}&userPwd=${this.user_password}`;
-        console.log(url)
         this.axios({
           method: "get",
           url,
         }).then((response) => {
-          this.data = response.data;
-          // console.log(this.data);
-          if (this.data.length > 0) {
-            //事先清空cookie
+          this.userInfo = response.data;
+          //存在此用户
+          if (this.userInfo.length > 0) {
             this.$cookie.delete("userId");
+            //设置cookie
             this.$cookie.set("userId", response.data[0].userId);
-
-            //设置Vuex
-            this.$store.dispatch("clear");
-            this.$store.dispatch("setuserid", response.data[0].userId);
-            this.$store.dispatch("setusername", response.data[0].userName);
-
-            //存放用户购物车信息
-            var cartList = response.data[0].cartList;
-            if (cartList.length == 0) {
-              this.$store.dispatch("setcartlist", []);
-            } else {
-              // var res = this.getData(cartList)
-              // console.log("res",res)
-              var dispatchCartlist = [];
-              cartList.forEach((cart) => {
-                var url = `http://localhost:3000/phoneListsSmall?ItemId=${cart}`;
-                this.axios({
-                  method: "get",
-                  url,
-                }).then((response) => {
-                  dispatchCartlist = dispatchCartlist.concat(response.data);
-                  // this.$store.dispatch("clearcart")
-                  // console.log("111111",this.$store.state.cartList)
-                  this.$store.dispatch("setcartlist", dispatchCartlist);
-                  console.log("dispatchCartlist", dispatchCartlist);
-                  console.log("222222", this.$store.state.cartList);
-                });
-              });
-              // console.log("listlistlist",dispatchCartlist);
-              // this.$store.dispatch("setcartlist", dispatchCartlist);
+            setMsg(this.axios, this.$store, response.data[0]);
+            setTimeout(() => {
               this.$router.push("/index");
-            }
-
-            //存放用户订单信息
-            /*
-            var orderList = response.data[0].orderList;
-            if (orderList.length == 0) {
-              this.$store.dispatch("setorderlist", []);
-            } else {
-              var dispatchOrderlist = [];
-              orderList.forEach((order) => {
-                var url = `http://localhost:3000/phoneListsSmall?ItemId=${order}`;
-                this.axios({
-                  method: "get",
-                  url,
-                }).then((response) => {
-                  dispatchOrderlist = dispatchOrderlist.concat(response.data);
-                });
-              });
-              console.log(dispatchOrderlist);
-              this.$store.dispatch("setorderlist", dispatchOrderlist);
-            }
-            */
+            },600)
           }
         });
       } else {

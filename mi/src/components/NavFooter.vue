@@ -19,7 +19,7 @@
         </div>
         <div class="service">
           <a href="javascript:;"
-            ><i class="iconfont icon-liwuhuodong"></i>满69包邮</a
+            ><i class="iconfont icon-gift"></i>满69包邮</a
           >
         </div>
         <div class="service">
@@ -86,12 +86,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import url(../../public/MyFontSolid/iconfont.css);
 .footer {
   // position: absolute;
   // bottom: 0;
-
-  width: 100%;
+  margin: 0 auto;
+  width: 1226px;
   .footer-service {
     margin: 0 auto;
     display: flex;

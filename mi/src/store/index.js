@@ -15,14 +15,17 @@ const actions = {
     setorderlist(context, orderlist) {
         context.commit("SETORDERLIST", orderlist)
     },
-    clear(context){
+    clear(context) {
         context.commit("CLEAR")
     },
-    clearcart(context){
+    clearcart(context) {
         context.commit("CLEARCART")
     },
-    clearorder(context){
+    clearorder(context) {
         context.commit("CLEARORDER")
+    },
+    setcartgoods(context, cartgoods) {
+        context.commit("SETCARTGOODS", cartgoods)
     }
 }
 
@@ -39,16 +42,19 @@ const mutations = {
     SETORDERLIST(state, orderlist) {
         state.orderList = orderlist
     },
-    CLEAR(state){
-        state.userId = "",
-        state.userName = "",
-        state.cartList = [],
-        state.orderList = []
+    SETCARTGOODS(state, cartgoods) {
+        state.cartGoods = cartgoods
     },
-    CLEARCART(state){
+    CLEAR(state) {
+        state.userId = "",
+            state.userName = "",
+            state.cartList = [],
+            state.orderList = []
+    },
+    CLEARCART(state) {
         state.cartList = []
     },
-    CLEARORDER(state){
+    CLEARORDER(state) {
         state.orderList = []
     }
 }
@@ -57,11 +63,20 @@ const state = {
     userId: "",
     userName: "",
     cartList: [],
-    orderList: []
+    cartGoods: [],
+    orderList: [],
+}
+
+const getters = {
+    cartAmount: state => state.cartList.length,
+    cartTotalAmount: state => state.cartList.reduce((total, current, index) => total + current.price * state.cartGoods[index], 0),
+    cartTotalItems: state => state.cartGoods.reduce((total, current) => total + current, 0),
+    totalChosen: state => state.cartGoods.reduce((total, current, index) => total + current * state.orderList[index])
 }
 
 export default new Vuex.Store({
     actions,
     mutations,
-    state
+    state,
+    getters
 })
