@@ -41,7 +41,7 @@
       </div>
       <ul v-for="(ad, index) in adList1" :key="index">
         <li>
-          <a v-if="ad.JumpId" :href="'/#/product/' + ad.JumpId"
+          <a v-if="ad.showid !=0" :href="'/#/product/' + ad.showid"
             ><img :src="ad.src"
           /></a>
           <a v-else href="javascript:;"><img :src="ad.src" /></a>
@@ -63,9 +63,9 @@ export default {
     //3张中型手机图片
     this.axios({
       method: "get",
-      url: "http://localhost:3000/adOnIndex",
+      url:`${this.CURL}/ad/adonhome`,
     }).then((res) => {
-      this.adList1 = res.data.slice(0, 3);
+      this.adList1 = res.data.msg;
     });
   },
 };

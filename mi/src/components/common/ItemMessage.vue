@@ -2,7 +2,7 @@
   <div>
     <div id="ItemMessage" class="ItemMessage">
       <div class="messageContainer">
-        <div class="itemListsContainer" v-if="itemLists.length != 0">
+        <div class="itemListsContainer" v-if=" itemLists && itemLists.length != 0">
           <div class="items" v-for="(item, index) in itemLists" :key="index">
             <p>
               {{ item }}

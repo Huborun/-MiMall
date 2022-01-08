@@ -35,10 +35,10 @@
           </div>
         </div>
         <div class="item item5">
-          <div class="container1">
+          <div class="container1" @click="goToCart">
             <p><i class="iconfont icon-gouwuchekong"></i></p>
             <p class="text">购物车</p>
-            <div id="cartAmount" v-if="cartAmount > 0">{{cartAmount}}</div>
+            <div id="cartAmount" v-if="cartAmount > 0">{{ cartAmount }}</div>
           </div>
         </div>
       </div>
@@ -61,25 +61,36 @@ export default {
   data() {
     return {};
   },
-  props:{
-    cartAmount:Number
+  props: {
+    cartAmount: Number,
   },
-  methods: {},
+  methods: {
+    goToCart() {
+      console.log(1)
+      this.$router.push("/cart");
+    },
+  },
   mounted() {
-    window.onscroll = function () {
-      let top = document.documentElement.scrollTop;
-      if (top < 1000) {
-        let toTop = document.getElementsByClassName("toTop")[0];
-        toTop.style.display = "none";
-        let right = document.getElementsByClassName("right")[0];
-        right.style.top = "490px";
-      } else {
-        let toTop = document.getElementsByClassName("toTop")[0];
-        toTop.style.display = "block";
-        let right = document.getElementsByClassName("right")[0];
-        right.style.top = "374px";
-      }
-    };
+    if (this.$route.path == "/index") {
+      window.onscroll = function () {
+        let top = document.documentElement.scrollTop;
+        if (top < 1000) {
+          let toTop = document.getElementsByClassName("toTop")[0];
+          if (toTop && toTop.style) {
+            toTop.style.display = "none";
+            let right = document.getElementsByClassName("right")[0];
+            right.style.top = "490px";
+          }
+        } else {
+          let toTop = document.getElementsByClassName("toTop")[0];
+          if (toTop && toTop.style) {
+            toTop.style.display = "block";
+            let right = document.getElementsByClassName("right")[0];
+            right.style.top = "374px";
+          }
+        }
+      };
+    }
   },
 };
 </script>
@@ -114,6 +125,7 @@ export default {
   border-bottom: 1px solid #f5f5f5;
   position: relative;
   .container1 {
+    cursor: pointer;
     text-align: center;
     padding-top: 20px;
     .text {
@@ -157,27 +169,27 @@ export default {
       width: 100px;
       height: 100px;
       position: absolute;
-      top:20px;
-      left:15px;
+      top: 20px;
+      left: 15px;
       img {
         width: 100px;
         height: 100px;
       }
     }
 
-    span{
+    span {
       display: inline-block;
       width: 80px;
       position: absolute;
-      top:130px;
-      left:25px;
+      top: 130px;
+      left: 25px;
       font-size: 14px;
-      color:#757575;
+      color: #757575;
     }
   }
 
   &:hover {
-    .leftImage{
+    .leftImage {
       display: block;
     }
   }
@@ -251,17 +263,17 @@ export default {
     color: #999999;
   }
 
-  #cartAmount{
-    position:absolute;
-    left:50px;
-    top:20px;
+  #cartAmount {
+    position: absolute;
+    left: 50px;
+    top: 20px;
     width: 18px;
     height: 15px;
     background-color: #ff6700;
     border-radius: 50% / 50%;
 
     font-size: 12px;
-    color:#fff;
+    color: #fff;
   }
 
   &:hover {

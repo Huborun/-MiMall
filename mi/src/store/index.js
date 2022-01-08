@@ -9,23 +9,20 @@ const actions = {
     setusername(context, userName) {
         context.commit("SETUSERNAME", userName)
     },
-    setcartlist(context, cartlist) {
-        context.commit("SETCARTLIST", cartlist)
+    setusercart(context, usercart) {
+        context.commit("SETUSERCART", usercart)
     },
-    setorderlist(context, orderlist) {
-        context.commit("SETORDERLIST", orderlist)
+    setuserorder(context, order) {
+        context.commit("SETUSERORDER", order)
+    },
+    setuserddress(context, address) {
+        context.commit("SETUSERADDRESS", address)
+    },
+    setuserchosen(context, chosen) {
+        context.commit("SETUSERCHOSEN", chosen)
     },
     clear(context) {
         context.commit("CLEAR")
-    },
-    clearcart(context) {
-        context.commit("CLEARCART")
-    },
-    clearorder(context) {
-        context.commit("CLEARORDER")
-    },
-    setcartgoods(context, cartgoods) {
-        context.commit("SETCARTGOODS", cartgoods)
     }
 }
 
@@ -36,42 +33,59 @@ const mutations = {
     SETUSERNAME(state, userName) {
         state.userName = userName
     },
-    SETCARTLIST(state, cartlist) {
-        state.cartList = cartlist
+    SETUSERCART(state, usercart) {
+        state.userCart = usercart
     },
-    SETORDERLIST(state, orderlist) {
-        state.orderList = orderlist
+    SETUSERORDER(state, order) {
+        state.userOrder = order
     },
-    SETCARTGOODS(state, cartgoods) {
-        state.cartGoods = cartgoods
+    SETUSERCHOSEN(state, chosen) {
+        state.userChosen = chosen
     },
     CLEAR(state) {
-        state.userId = "",
-            state.userName = "",
-            state.cartList = [],
-            state.orderList = []
-    },
-    CLEARCART(state) {
-        state.cartList = []
-    },
-    CLEARORDER(state) {
-        state.orderList = []
+        state.userId = ""
+        state.userName = ""
+        state.userCart = []
+        state.userOrder = []
+        state.userChosen = []
     }
 }
 
 const state = {
     userId: "",
     userName: "",
-    cartList: [],
-    cartGoods: [],
-    orderList: [],
+    userCart: [],
+    userOrder: [],
+    userChosen: [],
 }
 
 const getters = {
-    cartAmount: state => state.cartList.length,
-    cartTotalAmount: state => state.cartList.reduce((total, current, index) => total + current.price * state.cartGoods[index], 0),
-    cartTotalItems: state => state.cartGoods.reduce((total, current) => total + current, 0),
-    totalChosen: state => state.cartGoods.reduce((total, current, index) => total + current * state.orderList[index])
+    //cartAmount：购物车中有几件商品
+    cartAmount: state => {
+        if (state.userCart.length == 0) {
+            return 0
+        } else {
+            return state.userCart.reduce((total, current) => total + current.amount, 0)
+        }
+    },
+    // cartTotalPrice: state => state.cartList.reduce((total, current, index) => total + current.price * state.cartGoods[index], 0),
+    cartTotalPrice: state => {
+        if (state.userCart.length == 0) {
+            return 0
+        } else {
+            return state.userCart.reduce((total, current) => total + current.price * current.amount, 0)
+        }
+    },
+    // cartTotalItems: state => state.cartGoods.reduce((total, current) => total + current, 0),
+    totalChosen: state => state.userChosen.reduce((total, current) => total + current.amount, 0),
+    totalChosenPrice: state => {
+        if (state.userChosen.length == 0) {
+            return 0
+        } else {
+            return state.userChosen.reduce((total, current) => total + current.price * current.amount, 0)
+        }
+    },
+
 }
 
 export default new Vuex.Store({

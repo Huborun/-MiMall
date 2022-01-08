@@ -5,10 +5,11 @@
 </template>
 
 <script>
-import setMsg from "./js/setMsg";
+import {setAtt} from "./mixin/setAtt.js"
 export default {
   name: "App",
   components: {},
+  mixins:[setAtt],
   data() {
     return {};
   },
@@ -16,15 +17,7 @@ export default {
     if (this.$cookie.get("userId")) {
       //如果确实有userId
       //则设置Vuex
-      var url = `http://localhost:3000/user?userId=${this.$cookie.get(
-        "userId"
-      )}`;
-      this.axios({
-        method: "get",
-        url,
-      }).then((response) => {
-        setMsg(this.axios, this.$store, response.data[0]);
-      });
+       this.setMsg(this.axios, this.$store, this.$cookie.get("userId"));
     }
   },
   beforeDestroy() {

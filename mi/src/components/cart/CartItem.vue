@@ -10,24 +10,25 @@
       </div>
       <div class="other">
         <div class="image">
-          <img :src="src" />
+          <img :src="item_.cartimage" />
         </div>
         <div class="name">
-          <p>{{ name }}</p>
+          <p>{{ item_.itemname }} {{ item_.memory }} {{ item_.color }}</p>
         </div>
         <div class="price">
-          <p>{{ price }}元</p>
+          <p>{{ item_.price }}元</p>
         </div>
-        <div v-if="max > 0" class="amount">
+        <div v-if="item_.maxamounts > 0" class="amount">
           <CartAmount
             @updateAmount="updateAmount"
             :index="index"
-            :initial="amount"
-            :max="max"
+            :initial="item_.amount"
+            :max="item_.maxamounts"
+            :msg="item_"
           />
         </div>
         <div class="total">
-          <p>{{ amount * price }}元</p>
+          <p>{{ item_.amount * item_.price }}元</p>
         </div>
         <div class="delete">
           <div class="circle" @click="deleteItem">
@@ -43,49 +44,35 @@
 </template>
 
 <script>
-import getIndex from "../../js/getIndex";
-import deleteCartItem from "../../js/deleteCartItem";
+import { setAtt } from "../../mixin/setAtt";
 import CartAmount from "./CartAmount";
 export default {
   data() {
     return {
-      checked: false,
-      src: "",
-      name: "",
-      amount: 0,
-      price: 0,
-      max: 0,
       index: -1,
       deleted: false,
       chosen: false,
       currentIndex_: this.currentIndex,
       allChecked: false,
+      item_: this.item,
     };
   },
   components: {
     CartAmount,
   },
+  mixins: [setAtt],
   methods: {
-
     //全部更新
     changeChosenAllSon(check) {
-      this.axios
-        .get(`http://localhost:3000/user?userId=${this.$cookie.get("userId")}`)
-        .then((response) => {
-          let orderList = response.data[0].orderList;
-          if (check == true) {
-            orderList.fill(1);
-          } else {
-            orderList.fill(0);
-          }
-          //更新
-          this.axios.patch(
-            `http://localhost:3000/user/${this.$cookie.get("userId")}`,
-            {
-              orderList: orderList,
-            }
-          );
-        });
+      let url = `${this.CURL}users/cart/chosenall`;
+      this.axios({
+        method: "PUT",
+        url: url,
+        data: {
+          chosen: check,
+          userid: this.$cookie.get("userId"),
+        },
+      });
     },
     changeItself(check) {
       this.chosen = check;
@@ -94,26 +81,23 @@ export default {
     //单个更新
     chose() {
       this.chosen = !this.chosen;
-      this.axios
-        .get(`http://localhost:3000/user?userId=${this.$cookie.get("userId")}`)
-        .then((response) => {
-          let orderList = response.data[0].orderList;
-          if (this.chosen == true) {
-            orderList[this.currentIndex_] = 1;
-          } else {
-            orderList[this.currentIndex_] = 0;
-          }
-          this.axios.patch(
-            `http://localhost:3000/user/${this.$cookie.get("userId")}`,
-            {
-              orderList: orderList,
-            }
-          );
-          //触发父级更新orderList事件
-          setTimeout(() => {
-            this.$emit("updateOrderList", orderList);
-          }, 50);
-        });
+
+      this.axios({
+        method: "put",
+        url: `${this.CURL}users/cart`,
+        data: {
+          chosen: this.chosen,
+          userid: this.$cookie.get("userId"),
+          itemname: this.item_.itemname,
+          memory: this.item_.memory,
+          color: this.item_.color,
+        },
+      });
+
+      //触发父级更新orderList事件
+      setTimeout(() => {
+        this.$emit("updateChosenList");
+      }, 50);
     },
     updateAmount(newAmount) {
       this.amount = newAmount;
@@ -126,8 +110,21 @@ export default {
       })
         .then(() => {
           //确认：则删除此商品
-          deleteCartItem(this.axios, this.$cookie.get("userId"), this.index,this.$store.state);
+          let url = `${this.CURL}users/cart`;
+          this.axios({
+            method: "delete",
+            url: url,
+            data: {
+              itemname: this.item_.itemname,
+              memory: this.item_.memory,
+              color: this.item_.color,
+              userid: this.$cookie.get("userId"),
+            },
+          });
           this.deleted = true;
+          //更新vuex
+          this.setUserChosen(this.axios, this.$store, this.$cookie.get("userId"));
+          this.setUserCart(this.axios, this.$store, this.$cookie.get("userId"))
         })
         .catch(() => {
           //取消，则什么都不做
@@ -135,44 +132,25 @@ export default {
     },
   },
   props: {
-    id: Number,
+    item: Object,
     currentIndex: Number,
   },
   computed: {
     total() {
-      return this.amount * this.price;
+      return this.item_.amount * this.item_.price;
+    },
+  },
+  watch: {
+    chosen() {
+      this.setUserChosen(this.axios, this.$store, this.$cookie.get("userId"));
     },
   },
   mounted() {
-    
-    //一开始可能无法取到
-    setTimeout(() => {
-      let index = getIndex(this.$store.state.cartList, this.id);
-      let res = this.$store.state.cartList[index];
-      this.index = index;
-      this.src = res.cartImage;
-      this.price = res.price;
-      this.amount = this.$store.state.cartGoods[index];
-
-      this.axios
-        .get(`http://localhost:3000/itemShow?JumpId=${res.JumpId}`)
-        .then((response) => {
-          this.name = response.data[0].cartName;
-          this.max = response.data[0].maxAmounts;
-        });
-
-      //获取是否选中
-      this.axios
-        .get(`http://localhost:3000/user?userId=${this.$cookie.get("userId")}`)
-        .then((response) => {
-          let orderList = response.data[0].orderList;
-          if (orderList[this.currentIndex_] == 0) {
-            this.chosen = false;
-          } else if (orderList[this.currentIndex_] == 1) {
-            this.chosen = true;
-          }
-        });
-    }, 400);
+    if (this.item_.chosen == 0) {
+      this.chosen = false;
+    } else {
+      this.chosen = true;
+    }
   },
 };
 </script>

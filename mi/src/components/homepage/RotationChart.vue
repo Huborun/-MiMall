@@ -3,7 +3,7 @@
     <div class="swiper-items">
       <swiper :options="swiperOption" v-if="itemList.length">
         <swiper-slide v-for="(item, index) in itemList" :key="index">
-          <a v-if="item.JumpId" v-bind:href="'/#/product/' + item.id"
+          <a v-if="item.showid" v-bind:href="'/#/product/' + item.showid"
             ><img v-bind:src="item.src"
           /></a>
           <a v-else href="javascript:;"> <img v-bind:src="item.src" /></a>
@@ -50,9 +50,9 @@ export default {
     //轮播图
     this.axios({
       method: "get",
-      url: "http://localhost:3000/slides",
+      url: `${this.CURL}/ad/slides`,
     }).then((res) => {
-      this.itemList = res.data;
+      this.itemList = res.data.msg;
     });
   },
 };

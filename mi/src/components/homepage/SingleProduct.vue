@@ -6,11 +6,11 @@
         <div class="item-name">{{ name_ }}</div>
         <div class="item-sketch">{{ sketch_ }}</div>
         <div v-if="!oldprice_" class="item-price">
-          {{ price_ }}
+          {{ price_ }}元
         </div>
         <div v-else class="item-price2">
-          {{ price_ }}
-          <span class="item-oldPirce">{{ oldprice_ }}</span>
+          {{ price_ }}元
+          <span class="item-oldPirce">{{ oldprice_ }}元</span>
         </div>
       </a>
       <a v-else href="javascript:;">
@@ -18,11 +18,11 @@
         <div class="item-name">{{ name_ }}</div>
         <div class="item-sketch">{{ sketch_ }}</div>
         <div v-if="!oldprice_" class="item-price">
-          {{ price_ }}
+          {{ price_ }}元
         </div>
         <div v-else class="item-price2">
-          {{ price_ }}
-          <span class="item-oldPirce">{{ oldprice_ }}</span>
+          {{ price_ }}元
+          <span class="item-oldPirce">{{ oldprice_ }}元</span>
         </div>
       </a>
     </div>
@@ -30,7 +30,7 @@
       <img v-lazy="src_" />
       <div class="itemText">
         <div class="itemName">{{ name_ }}</div>
-        <div class="itemPrice">{{ price_ }}</div>
+        <div class="itemPrice">{{ price_ }}元</div>
       </div>
     </div>
     <div v-if="type_ == 'more'" class="more">
@@ -49,7 +49,7 @@
 export default {
   data() {
     return {
-      JumpId_: this.JumpId,
+      JumpId_: this.showid,
       name_: this.name,
       sketch_: this.sketch,
       price_: this.price,
@@ -60,7 +60,7 @@ export default {
     };
   },
   props: [
-    "JumpId",
+    "showid",
     "name",
     "sketch",
     "price",

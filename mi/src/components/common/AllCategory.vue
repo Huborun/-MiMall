@@ -7,14 +7,14 @@
     >
       <div class="text">全部商品分类</div>
       <div class="header" v-if="showCategory">
-          <CategoryList />
+          <CategoryList2 />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import CategoryList from "./CategoryList.vue";
+import CategoryList2 from "./CategoryList2.vue";
 export default {
   data() {
     return {
@@ -30,7 +30,7 @@ export default {
     },
   },
   components: {
-    CategoryList,
+    CategoryList2,
   },
 };
 </script>
@@ -62,21 +62,6 @@ export default {
     position: absolute;
     top: 65px;
     left: -100px;
-
-      ::v-deep .item-list {
-        background-color: #fff;
-        border: 1px solid #ff6700;
-        #item-ul {
-          .item-li {
-            a {
-              color: #424242;
-            }
-            .icon-jiantouyou {
-              color: #e0e0e0;
-            }
-          }
-        }
-      }
   }
 }
 </style>

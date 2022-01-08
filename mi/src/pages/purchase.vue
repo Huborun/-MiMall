@@ -14,18 +14,18 @@
         <div class="name">{{ name }}</div>
         <div class="sketch">
           <span class="important">
-            {{ Promotion }}
+            {{ promotion }}
           </span>
           <span class="parameter">
             {{ parameter }}
           </span>
           <div class="message1">小米自营</div>
           <div class="prices">
-            <span class="newPrice">{{ prices[currentChoice1] }}</span>
+            <span class="newPrice">{{ prices[currentChoice1] }}元</span>
             <span
               v-if="prices[currentChoice1] != oldPrices[currentChoice1]"
               class="oldPrice"
-              >{{ oldPrices[currentChoice1] }}</span
+              >{{ oldPrices[currentChoice1] }}元</span
             >
           </div>
           <div class="separator"></div>
@@ -35,7 +35,7 @@
           <div class="textTips">选择版本</div>
           <div class="containerSmall">
             <div
-              v-for="(Memory, index) in Memories"
+              v-for="(Memory, index) in memories"
               :key="index"
               :class="{
                 item: true,
@@ -58,12 +58,12 @@
               :key="index"
               :class="{
                 item: true,
-                active: checked[Memories.length + index],
-                temporaryActive: temporaryChosen[Memories.length + index],
+                active: checked[memories.length + index],
+                temporaryActive: temporaryChosen[memories.length + index],
               }"
-              @click="changeColor(Memories.length + index)"
-              @mouseenter="changeColor2(Memories.length + index)"
-              @mouseleave="changeColor3(Memories.length + index)"
+              @click="changeColor(memories.length + index)"
+              @mouseenter="changeColor2(memories.length + index)"
+              @mouseleave="changeColor3(memories.length + index)"
             >
               {{ color }}
             </div>
@@ -72,20 +72,20 @@
         </div>
         <div class="order">
           <div class="phoneMessage">
-            {{ name }} {{ Memories[currentChoice1] }}
-            {{ colors[currentChoice2] }}
+            {{ name }} {{ memories[currentChoice1] }}
+            {{ colors[currentChoice2] }}元
             <div
               class="phonePrice"
               v-if="prices[currentChoice1] != oldPrices[currentChoice1]"
             >
-              {{ prices[currentChoice1] }}
-              <span>{{ oldPrices[currentChoice1] }}</span>
+              {{ prices[currentChoice1] }}元
+              <span>{{ oldPrices[currentChoice1] }}元</span>
             </div>
             <div class="phonePrice" v-else>
-              {{ prices[currentChoice1] }}
+              {{ prices[currentChoice1] }}元
             </div>
           </div>
-          <div class="totalPrice">总计：{{ prices[currentChoice1] }}</div>
+          <div class="totalPrice">总计：{{ prices[currentChoice1] }}元</div>
         </div>
         <div class="purchase">
           <div class="cart" @click="addToCart">加入购物车</div>
@@ -120,92 +120,71 @@
 import GoodsHeader from "../components/goodscompoent/GoodsHeader";
 import ItemMessage from "../components/common/ItemMessage";
 import NotLoggedIn from "../components/common/NotloggedIn";
-import getIndex from "../js/getIndex";
+import { addCart } from "../mixin/addCart";
 export default {
   data() {
     return {
       name: "",
-      Memories: [],
+      memories: [],
       colors: [],
-      MemoryChosen: 0,
+      memoryChosen: 0,
       colorChosen: 0,
       prices: [],
       oldPrices: [],
       checked: [],
       temporaryChosen: [],
-      Promotion: "",
+      mromotion: "",
       parameter: "",
       itemLists: [],
       src: "",
       currentChoice1: 0,
       currentChoice2: 0,
       itemId: 0,
-      JumpId: 0,
+      showid: 0,
     };
   },
+  mixins: [addCart],
   methods: {
     async addToCart() {
       if (this.$cookie.get("userId")) {
-        //若用户已登录
-        let res = getIndex(this.$store.state.cartList, this.itemId);
-        let url = `http://localhost:3000/phoneListsSmall?ItemId=${this.itemId}`;
-        let dataTmp = await this.axios.get(url);
-        let data = dataTmp.data[0];
-        //当前用户购物车中是否有此商品
-        if (res < 0) {
-          //没有此商品，就新增
-          this.$store.state.cartList.push(data);
-          this.$store.state.cartGoods.push(1);
-          let url2 = `http://localhost:3000/user/${this.$cookie.get("userId")}`;
-          let tmp = await this.axios.get(url2);
-          let arrayTmp = tmp.data.cartList;
-          let orderList = tmp.data.orderList;
-          orderList.push(0);
-          arrayTmp.push(data.ItemId);
-          this.axios.patch(url2, {
-            cartList: arrayTmp,
-            cartGoods: this.$store.state.cartGoods,
-            orderList: orderList,
-          });
+        let result = await this.addCart(
+          this.$cookie.get("userId"),
+          this.itemId,
+          this.name,
+          this.memories[this.currentChoice1],
+          this.colors[this.currentChoice2],
+          this.prices[this.currentChoice1]
+        );
+        if (result == true) {
+          //加入成功
+          //跳转到成功界面
           this.$router.push({
             name: "cartSuccess",
             params: {
-              phoneMsg: `${this.name} ${this.Memories[this.currentChoice1]} ${
-                this.Colors[this.currentChoice2]
-              }`,
-            },
-          });
-        } else {
-          //有此商品，就增加数目
-          let arrayTmp = this.$store.state.cartGoods;
-          arrayTmp[res]++;
-          let url2 = `http://localhost:3000/user/${this.$cookie.get("userId")}`;
-          this.axios.patch(url2, {
-            cartGoods: arrayTmp,
-          });
-          this.$router.push({
-            name: "cartSuccess",
-            params: {
-              phoneMsg: `${this.name} ${this.Memories[this.currentChoice1]} ${
+              phoneMsg: `${this.name} ${this.memories[this.currentChoice1]} ${
                 this.colors[this.currentChoice2]
               }`,
-              JumpId: this.JumpId,
+              itemId: this.itemId,
             },
+            
           });
+        }else{
+          console.log("false")
         }
       } else {
+        //未登陆就去登陆
         this.$router.push("/login");
       }
     },
     changeColor(index) {
-      if (index < this.Memories.length) {
-        for (let i = 0; i < this.Memories.length; i++) {
+      if (index < this.memories.length) {
+        for (let i = 0; i < this.memories.length; i++) {
           this.$set(this.checked, i, false);
         }
       } else {
         for (
-          let i = this.Memories.length;
-          i < this.Memories.length + this.colors.length;
+          let i = this.memories.length;
+          i < this.memories.length + this.colors.length;
           i++
         ) {
           this.$set(this.checked, i, false);
@@ -214,11 +193,11 @@ export default {
       this.$set(this.checked, index, true);
 
       //当前选中的内存的价格
-      if (index < this.Memories.length) {
+      if (index < this.memories.length) {
         this.currentChoice1 = index;
       } else {
         //当前选择的颜色
-        this.currentChoice2 = index - this.Memories.length;
+        this.currentChoice2 = index - this.memories.length;
       }
     },
     changeColor2(index) {
@@ -240,36 +219,74 @@ export default {
     //截取地址，判断当前是第几个商品
     next((vm) => {
       let id = to.fullPath.substring(10, to.fullPath.length);
-      vm.JumpId = id;
-      var url = `http://localhost:3000/itemShow?id=${id}`;
+      vm.showid = id;
+      //这里不能用CURL
+      var url = `http://localhost:6789/mimall/phones/shopping/${id}`;
       vm.axios({
         methods: "get",
         url,
       }).then((response) => {
-        let data = response.data[0];
-        vm.Memories = data.Memories.split(",");
-        vm.colors = data.Colors.split(",");
-        vm.prices = data.price.split(",");
-        vm.oldPrices = data.oldPrice.split(",");
-        vm.Promotion = data.Promotion;
-        vm.parameter = data.parameter;
-        vm.itemLists = data.itemLists.split(",");
-        vm.src = data.src;
-        vm.name = data.sketch;
-        vm.itemId = data.ItemId;
-        //这可能是json-server的bug，始终无法取到Note11Pro的ItemId
-        if (!data.ItemId) {
-          vm.itemId = 1;
-        }
+        // console.log(response.data.msg);
+        let data = response.data.msg;
+
+        //设置内存
+        let memories = [];
+
+        //设置颜色
+        let colors = [];
+
+        //设置Promotion
+        let promotion = data[0].promotion;
+        vm.promotion = promotion;
+
+        //设置parameter
+        let parameter = data[0].parameter;
+        vm.parameter = parameter;
+
+        //设置name
+        let name = data[0].name;
+        vm.name = name;
+
+        //设置src
+        let src = data[0].cartimage;
+        vm.src = src;
+
+        //设置价格和旧价格
+        let prices = [];
+        let oldPrices = [];
+
+        data.forEach((item) => {
+          //设置内存
+          if (memories.indexOf(item.memory) == -1) {
+            memories.push(item.memory);
+            prices.push(item.price);
+            oldPrices.push(item.oldprice);
+          }
+
+          //设置颜色
+          if (colors.indexOf(item.color) == -1) {
+            colors.push(item.color);
+          }
+        });
+
+        vm.memories = memories;
+        vm.colors = colors;
+        vm.prices = prices;
+        vm.oldPrices = oldPrices;
+
+        //itemLists：上面那个跳转的东西
+        vm.itemLists = data[0].relevantitems.split(",");
+        vm.itemId = data[0].itemid;
+
         //设置checked
-        let tempChecked = new Array(vm.colors.length + vm.Memories.length);
+        let tempChecked = new Array(vm.colors.length + vm.memories.length);
         tempChecked.fill(false);
         tempChecked[0] = true;
-        tempChecked[vm.Memories.length] = true;
+        tempChecked[vm.memories.length] = true;
         vm.checked = tempChecked;
 
         //设置temporaryChosen
-        tempChecked = new Array(vm.colors.length + vm.Memories.length);
+        tempChecked = new Array(vm.colors.length + vm.memories.length);
         tempChecked.fill(false);
         vm.temporaryChosen = tempChecked;
       });

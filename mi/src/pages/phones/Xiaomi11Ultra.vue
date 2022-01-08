@@ -1,7 +1,7 @@
 <template>
   <div>
     <GoodsHeader />
-    <ItemMessage :itemLists="['Xiaomi 11 Ultra', 'Xiaomi 11']" id="1" />
+    <ItemMessage :itemLists="['Xiaomi 11 Ultra', 'Xiaomi 11']" id="2" />
     <img src="../../../public/imgs/11Ultra1.png" />
     <img src="../../../public/imgs/11Ultra2.png" />
     <video autoplay loop muted>

@@ -18,14 +18,16 @@
 </template>
 
 <script>
+import { setAtt } from "../../mixin/setAtt";
 export default {
   data() {
     return {
       amount: this.initial,
       maxAmounts: this.max,
-      index_: this.index,
+      msg_:this.msg
     };
   },
+  mixins: [setAtt],
   methods: {
     updateFather() {
       this.$emit("updateAmount", this.amount);
@@ -68,7 +70,7 @@ export default {
   props: {
     initial: Number,
     max: Number,
-    index: Number,
+    msg:Object
   },
   mounted() {
   },
@@ -104,18 +106,34 @@ export default {
         flag = false;
       }
       if (flag) {
-        let url = `http://localhost:3000/user?userId=${this.$cookie.get(
-          "userId"
-        )}`;
-        this.axios.get(url).then((response) => {
-          let res = response.data[0].cartGoods;
-          res[this.index_] = newAmount;
-          let url2 = `http://localhost:3000/user/${this.$cookie.get("userId")}`;
-          this.axios.patch(url2, {
-            cartGoods: res,
-          });
-        });
-        this.updateFather();
+        //根据this.amount修改购物车中到信息
+        let url = `${this.CURL}users/cart`
+        this.axios({
+          method:"put",
+          url,
+          data:{
+            amount: this.amount,
+            itemname:this.msg_.itemname,
+            memory:this.msg_.memory,
+            color:this.msg_.color,
+            userid:this.$cookie.get("userId")
+          }
+        })
+
+        this.setUserCart(this.axios, this.$store, this.$cookie.get("userId"))
+
+        // let url = `http://localhost:3000/user?userId=${this.$cookie.get(
+        //   "userId"
+        // )}`;
+        // this.axios.get(url).then((response) => {
+        //   let res = response.data[0].cartGoods;
+        //   res[this.index_] = newAmount;
+        //   let url2 = `http://localhost:3000/user/${this.$cookie.get("userId")}`;
+        //   this.axios.patch(url2, {
+        //     cartGoods: res,
+        //   });
+        // });
+        // this.updateFather();
       }
     },
   },

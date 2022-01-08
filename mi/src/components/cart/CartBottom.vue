@@ -7,15 +7,15 @@
       </div>
       <div class="chosen">
         共
-        <p>{{ $store.getters.cartTotalItems }}</p>
+        <p>{{ $store.getters.cartAmount }}</p>
         件商品，已选择
-        <p>2</p>
+        <p>{{$store.getters.totalChosen}}</p>
         件
       </div>
-      <div class="goToSettlement">去结算</div>
+      <div class="goToSettlement" @click="goToCheck">去结算</div>
       <div class="total">
         合计：
-        <p>{{ $store.getters.cartTotalAmount }}</p>
+        <p>{{ $store.getters.totalChosenPrice }}</p>
         元
       </div>
     </div>
@@ -27,7 +27,11 @@ export default {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    goToCheck(){
+      this.$router.push('/check')
+    }
+  },
 };
 </script>
 
@@ -103,13 +107,13 @@ export default {
     height: 50px;
     line-height: 50px;
     margin-right: 50px;
-    color:#ff6700;
+    color: #ff6700;
     font-size: 14px;
     font-family: "Helvetica Neue";
 
-    p{
-        display: inline-block;
-        font-size: 30px;
+    p {
+      display: inline-block;
+      font-size: 30px;
     }
   }
 }

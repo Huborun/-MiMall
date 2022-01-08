@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="type == 'big'" class="big">
-      <a v-if="JumpId" :href="'/#/product/' + JumpId">
+      <a v-if="showid" :href="'/#/product/' + showid">
         <img v-lazy="src" />
       </a>
       <a v-else href="javascript:;">
@@ -9,7 +9,7 @@
       </a>
     </div>
     <div v-else class="middle">
-      <a v-if="JumpId" :href="'/#/product/' + JumpId">
+      <a v-if="showid" :href="'/#/product/' + showid">
         <img v-lazy="src" />
       </a>
       <a v-else href="javascript:;">
@@ -25,7 +25,7 @@ export default {
     return {};
   },
   methods: {},
-  props: ["JumpId", "src", "type"],
+  props: ["showid", "src", "type"],
 };
 </script>
 

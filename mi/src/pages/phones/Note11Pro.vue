@@ -1,7 +1,7 @@
 <template>
   <div>
     <GoodsHeader />
-    <ItemMessage :itemLists="['Redmi Note 11 Pro系列', 'Note 10 Pro']" id="2" />
+    <ItemMessage :itemLists="['Redmi Note 11 Pro系列', 'Note 10 Pro']" id="1" />
     <img src="../../../public/imgs/Note11_1.png" />
     <img src="../../../public/imgs/Note11_2.png" />
     <img src="../../../public/imgs/Note11_3.png" />

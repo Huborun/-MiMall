@@ -3,7 +3,7 @@
     <GoodsHeader />
     <ItemMessage
       :itemLists="['Redmi K40', 'Redmi K30', 'K40 Pro 系列']"
-      id="5"
+      id="3"
     />
     <div class="container">
       <img class="imgSpreadOver" src="../../../public/imgs/K40.png" />

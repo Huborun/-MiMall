@@ -3,7 +3,7 @@
     <GoodsHeader />
     <ItemMessage
       :itemLists="['Xiaomi MIX FOLD折叠屏手机', 'Xiaomi MIX 4']"
-      id="4"
+      id="5"
     />
     <img src="../../../public/imgs/MIXFOLD1.png" />
     <img src="../../../public/imgs/MIXFOLD2.png" />

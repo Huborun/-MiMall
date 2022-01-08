@@ -7,39 +7,27 @@
     <ImportantProduct />
     <div class="ads">
       <div class="oneBig">
-        <a :href="'/#/product/' + bigAdId">
-          <img :src="adSrc" />
+        <a :href="'/#/product/' + bigAdId[0]">
+          <img :src="adSrc[0]" />
         </a>
       </div>
-      <OtherProduct
-        url="http://localhost:3000/phonesOnIndex"
-        name="手机"
-        :category="productList[0]"
-        :order="0"
-        :morethanone="false"
-      />
-      <OtherProduct
-        url="http://localhost:3000/SmartWearOnIndex"
-        name="智能穿戴"
-        :category="productList[1]"
-        :order="0"
-        :morethanone="true"
-      />
-      <OtherProduct
-        url="http://localhost:3000/LifeApplianceOnIndex"
-        name="家电"
-        :category="productList[2]"
-        :order="2"
-        :morethanone="true"
-      />
+      <OtherProduct :url="srcList[0]" name="手机" :order="0" />
+      <OtherProduct :url="srcList[1]" name="智能穿戴" :order="0" />
+      <OtherProduct :url="srcList[2]" name="家电" :order="2" />
+      <OtherProduct :url="srcList[3]" name="生活电器" :order="4" />
+      <div class="oneBig">
+        <a :href="'/#/product/' + bigAdId[1]">
+          <img :src="adSrc[1]" />
+        </a>
+      </div>
+      <OtherProduct :url="srcList[4]" name="厨房电器" :order="8" />
       <Videos />
-      <RightSidebar :cartAmount = $store.state.cartList.length />
+      <RightSidebar :cartAmount = $store.getters.cartAmount />
     </div>
   </div>
 </template>
 <script>
 import RotationChart from "../components/homepage/RotationChart.vue";
-import "swiper/css/swiper.css";
 import CategoryList from "../components/common/CategoryList.vue";
 import ImportantProduct from "../components/homepage/ImportantProduct.vue";
 import OtherProduct from "../components/homepage/OtherProduct.vue";
@@ -58,20 +46,42 @@ export default {
   },
   data() {
     return {
-      adSrc: "",
-      bigAdId: 0,
+      adSrc: [],
+      bigAdId: [],
       productList: [["手机"], ["穿戴", "热门"], ["电视影音", "热门"]],
+      srcList: [
+        `${this.CURL}ad/phones`,
+        `${this.CURL}ad/smartwear`,
+        `${this.CURL}ad/lifeappliance`,
+        `${this.CURL}ad/household`,
+        `${this.CURL}ad/kitchen`
+      ],
     };
   },
   mounted() {
+    let adSrc = [];
+    let bigAdId = [];
     // 1张大型手机图片
     this.axios({
       method: "get",
-      url: "http://localhost:3000/adOnIndex",
+      url: `${this.CURL}/ad/adwide`,
     }).then((res) => {
-      setTimeout(() => {
-        this.adSrc = res.data.slice(3, 4)[0].src;
-        this.bigAdId = res.data.slice(3, 4)[0].JumpId;
+      setTimeout(async () => {
+        // console.log(res.data.msg)
+        res.data.msg.forEach((item) => {
+          adSrc.push(item.src);
+          bigAdId.push(item.showid);
+        });
+        this.adSrc = adSrc;
+        this.bigAdId = bigAdId;
+        // this.adSrc = res.data.msg[0].src;
+        // let name = res.data.msg[0].name;
+        // let url = `${this.CURL}/phones?name="${name}"`;
+        // let result = await this.axios.get(url);
+        // if (result.data.msg[0].showid != 0) {
+        //   //获取跳转id
+        //   this.bigAdId = result.data.msg[0].showid;
+        // }
       }, 200);
     });
   },

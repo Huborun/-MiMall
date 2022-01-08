@@ -103,7 +103,7 @@
             <span v-if="user_password == '' && click2 != 0"
               >请输入登录密码</span
             >
-            <span v-if="userInfo.length == 0">用户名或密码不正确</span>
+            <span v-if="userInfo.length == 0 ">用户名或密码不正确 </span>
           </div>
           <div :class="{ notification: true, notification_display: display }">
             <i class="iconfont icon-gantanhao"></i>请您同意用户条款
@@ -155,7 +155,7 @@
 </template>
 
 <script>
-import setMsg from "../js/setMsg";
+import {setAtt} from "../mixin/setAtt.js"
 export default {
   data() {
     return {
@@ -194,6 +194,7 @@ export default {
       userInfo: [""],
     };
   },
+  mixins:[setAtt],
   methods: {
     changeWhenFocus() {
       if (this.user_name == "" && this.click1 != 0) {
@@ -320,21 +321,21 @@ export default {
       //第一次登陆时，将设置Vuex
       if (this.checked) {
         //已经同意
-        var url = `http://localhost:3000/user?userName=${this.user_name}&userPwd=${this.user_password}`;
+        var url = `${this.CURL}users/login?username=${this.user_name}&userpwd=${this.user_password}`;
         this.axios({
           method: "get",
           url,
         }).then((response) => {
-          this.userInfo = response.data;
+          this.userInfo = response.data.msg;
           //存在此用户
-          if (this.userInfo.length > 0) {
+          if (this.userInfo.length == 1) {
             this.$cookie.delete("userId");
             //设置cookie
-            this.$cookie.set("userId", response.data[0].userId);
-            setMsg(this.axios, this.$store, response.data[0]);
+            this.$cookie.set("userId", response.data.msg[0].userid);
+            this.setMsg(this.axios, this.$store, response.data.msg[0].userid);
             setTimeout(() => {
               this.$router.push("/index");
-            },600)
+            }, 600);
           }
         });
       } else {

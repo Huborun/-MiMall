@@ -12,85 +12,15 @@
             <li class="nav-category">
               <a></a>
             </li>
-            <li class="nav-item">
-              <a href="javascript:;" class="link">
-                <span class="text">Xiaomi手机</span>
-                <div class="phonelist_header">
-                  <div class="phonelist_headerCenter">
-                    <ul>
-                      <li
-                        class="product"
-                        v-for="(item, index) in phoneList"
-                        :key="index"
-                      >
-                        <a
-                          v-if="item.JumpId"
-                          :href="'/#/product/' + item.id"
-                          target="_blank"
-                        >
-                          <div class="pro-img">
-                            <img :src="item.src" :alt="item.name" />
-                          </div>
-                          <div class="pro-name">{{ item.name }}</div>
-                          <div class="pro-price">
-                            {{ item.price }}
-                          </div>
-                        </a>
-                        <a v-else href="javascript:;">
-                          <div class="pro-img">
-                            <img :src="item.src" :alt="item.name" />
-                          </div>
-                          <div class="pro-name">{{ item.name }}</div>
-                          <div class="pro-price">
-                            {{ item.price }}
-                          </div>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="javascript:;" class="link"
-                ><span class="text">Redmi红米</span></a
-              >
-            </li>
-            <li class="nav-item">
-              <a href="javascript:;" class="link"
-                ><span class="text">电视</span></a
-              >
-            </li>
-            <li class="nav-item">
-              <a href="javascript:;" class="link"
-                ><span class="text">笔记本</span></a
-              >
-            </li>
-            <li class="nav-item">
-              <a href="javascript:;" class="link"
-                ><span class="text">平板</span></a
-              >
-            </li>
-            <li class="nav-item">
-              <a href="javascript:;" class="link"
-                ><span class="text">家电</span></a
-              >
-            </li>
-            <li class="nav-item">
-              <a href="javascript:;" class="link"
-                ><span class="text">路由器</span></a
-              >
-            </li>
-            <li class="nav-item">
-              <a href="javascript:;" class="link"
-                ><span class="text">服务</span></a
-              >
-            </li>
-            <li class="nav-item">
-              <a href="javascript:;" class="link"
-                ><span class="text">社区</span></a
-              >
-            </li>
+            <TopAds category="Xiaomi手机" />
+            <TopAds category="Redmi 红米" />
+            <TopAds category="电视" />
+            <TopAds category="笔记本" />
+            <TopAds category="平板" />
+            <TopAds category="Xiaomi手机" />
+            <TopAds category="路由器" />
+            <TopAds category="服务" />
+            <TopAds category="社区" />
           </ul>
         </div>
         <div class="header-search">
@@ -123,11 +53,13 @@
 </template>
 
 <script>
+import TopAds from "./TopAds";
 export default {
   data() {
-    return {
-      phoneList: [],
-    };
+    return {};
+  },
+  components: {
+    TopAds,
   },
   methods: {
     changeSearch() {
@@ -143,15 +75,7 @@ export default {
       searchRecommend.style.display = "none";
     },
   },
-  mounted() {
-    //获取手机相关图片
-    this.axios({
-      method: "get",
-      url: "http://localhost:3000/phoneListsMiddle",
-    }).then((res) => {
-      this.phoneList = res.data.slice(0, 6);
-    });
-  },
+  mounted() {},
 };
 </script>
 
@@ -186,7 +110,7 @@ export default {
         height: 56px;
         overflow: hidden;
 
-        img{
+        img {
           width: 48px;
           height: 48px;
         }
@@ -195,7 +119,7 @@ export default {
 
     .header-navi {
       float: left;
-      margin-left:140px;
+      margin-left: 140px;
       width: 650px;
 
       .nav-list {
@@ -214,110 +138,8 @@ export default {
           width: 127px;
           padding-right: 15px;
         }
-
-        .nav-item {
-          list-style-type: none;
-          font-size: 16px;
-          float: left;
-          height: 100%;
-
-          .link {
-            list-style-type: none;
-            font-size: 16px;
-            background-color: rgba(0, 0, 0, 0);
-            text-decoration: none;
-            display: block;
-            padding: 2px 10px 0px;
-            margin-top: 20px;
-            color: #333;
-            transition: color 0.2s;
-
-            &:hover {
-              .phonelist_header {
-                opacity: 1;
-                height: 220px;
-              }
-            }
-
-            .text {
-              list-style-type: none;
-              font-size: 16px;
-              color: #333;
-
-              &:hover {
-                color: #ff6700;
-              }
-            }
-
-            .phonelist_header {
-              position: absolute;
-              top: 100px;
-              left: 0;
-              height: 0;
-              width: 99vw;
-              opacity: 0;
-              overflow: hidden;
-              border-top: 1px solid #e5e5e5;
-              box-shadow: 0px 7px 6px 0px rgba(0, 0, 0, 0.11);
-              z-index: 10;
-              transition: all 0.5s;
-              background-color: #ffffff;
-
-              .phonelist_headerCenter {
-                width: 1226px;
-                margin: 0 auto;
-
-                .product {
-                  position: relative;
-                  float: left;
-                  width: 16.6%;
-                  height: 220px;
-                  font-size: 12px;
-                  line-height: 12px;
-                  text-align: center;
-
-                  a {
-                    display: inline-block;
-                    line-height: 18px;
-                  }
-                  img {
-                    width: auto;
-                    height: 111px;
-                    margin-top: 26px;
-                  }
-                  .pro-img {
-                    height: 137px;
-                  }
-                  .pro-name {
-                    font-weight: bold;
-                    margin-top: 19px;
-                    margin-bottom: 8px;
-                    color: #333333;
-                  }
-                  .pro-price {
-                    color: #ff6600;
-                  }
-
-                  &:before {
-                    content: " ";
-                    position: absolute;
-                    top: 28px;
-                    right: 0;
-                    border-left: 1px solid #d7d7d7;
-                    height: 100px;
-                    width: 1px;
-                  }
-                  &:last-child:before {
-                    display: none;
-                  }
-                }
-              }
-            }
-          }
-        }
       }
     }
-
     .header-search {
       float: right;
       width: 296px;
@@ -394,7 +216,7 @@ export default {
 
       .searchRecommend {
         position: absolute;
-        
+
         display: none;
         width: 242px;
         height: 236px;
@@ -417,7 +239,7 @@ export default {
   }
 }
 
-a{
+a {
   text-decoration: none;
 }
 </style>

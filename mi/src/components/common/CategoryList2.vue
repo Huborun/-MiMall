@@ -3,39 +3,39 @@
     <div class="itemList">
       <ul id="itemUl">
         <li class="itemLi" @mouseenter="changeDisplay(0)">
-          <a class="hrefLi" href="javascript:;">手机</a>
+          <span class="hrefLi">手机</span>
           <i class="iconfont icon-jiantouyou"></i>
         </li>
         <li class="itemLi" @mouseenter="changeDisplay(1)">
-          <a class="hrefLi" href="javascript:;">电视</a
+          <span class="hrefLi">电视</span
           ><i class="iconfont icon-jiantouyou"></i>
         </li>
         <li class="itemLi" @mouseenter="changeDisplay(2)">
-          <a class="hrefLi" href="javascript:;">笔记本 平板</a
+          <span class="hrefLi">笔记本 平板</span
           ><i class="iconfont icon-jiantouyou"></i>
         </li>
         <li class="itemLi" @mouseenter="changeDisplay(3)">
-          <a class="hrefLi" href="javascript:;">家电</a
+          <span class="hrefLi">家电</span
           ><i class="iconfont icon-jiantouyou"></i>
         </li>
         <li class="itemLi" @mouseenter="changeDisplay(4)">
-          <a class="hrefLi" href="javascript:;">出行 穿戴</a
+          <span class="hrefLi">出行 穿戴</span
           ><i class="iconfont icon-jiantouyou"></i>
         </li>
         <li class="itemLi" @mouseenter="changeDisplay(5)">
-          <a class="hrefLi" href="javascript:;">智能 路由器</a
+          <span class="hrefLi">智能 路由器</span
           ><i class="iconfont icon-jiantouyou"></i>
         </li>
         <li class="itemLi" @mouseenter="changeDisplay(6)">
-          <a class="hrefLi" href="javascript:;">健康 儿童</a
+          <span class="hrefLi">健康 儿童</span
           ><i class="iconfont icon-jiantouyou"></i>
         </li>
         <li class="itemLi" @mouseenter="changeDisplay(7)">
-          <a class="hrefLi" href="javascript:;">耳机 音箱</a
+          <span class="hrefLi">耳机 音箱</span
           ><i class="iconfont icon-jiantouyou"></i>
         </li>
         <li class="itemLi" @mouseenter="changeDisplay(8)">
-          <a class="hrefLi" href="javascript:;">生活 箱包</a
+          <span class="hrefLi">生活 箱包</span
           ><i class="iconfont icon-jiantouyou"></i>
         </li>
       </ul>
@@ -76,6 +76,7 @@
 </template>
 
 <script>
+//CategoryList2：给非首页准备的
 import SingleAd from "../header/SingleAd";
 export default {
   data() {
@@ -100,22 +101,18 @@ export default {
     currentIndex(newVal) {
       if (newVal == -1) {
         //移出去了
-        for (let i = 0; i < 9; i++) {
-          document.getElementsByClassName("itemLi")[i].style.background =
-            "transparent";
-          document.getElementsByClassName("hrefLi")[i].style.Color = "#333";
-        }
       } else {
         for (let i = 0; i < 9; i++) {
-          document.getElementsByClassName("itemLi")[i].style.background =
-            "transparent";
-          document.getElementsByClassName("hrefLi")[i].style.Color = "#333";
+          document.getElementsByClassName("itemLi")[
+            i
+          ].style.backgroundColor = "#fff";
+          document.getElementsByClassName("hrefLi")[i].style.color = "#333";
         }
         document.getElementsByClassName("itemLi")[
           newVal
         ].style.backgroundColor = "#ff6700";
-        document.getElementsByClassName("hrefLi")[newVal].style.Color =
-          "#fff !important";
+        document.getElementsByClassName("hrefLi")[newVal].style.color = "#fff";
+        // console.log(document.getElementsByClassName("hrefLi")[newVal].style.Color)
       }
     },
   },
@@ -124,14 +121,16 @@ export default {
 
 <style lang="scss" scoped>
 #itemListContainer {
+
   height: 460px;
   .itemList {
     width: 234px;
     height: 460px;
     z-index: 10;
     position: absolute;
-    left: 0px;
-    background-color: #5a57557a;
+    left: -10px;
+    background-color: #fff;
+    border: 1px solid #ff6700;
 
     &:hover {
       .showList {
@@ -145,26 +144,25 @@ export default {
       padding-top: 20px;
       padding-bottom: 20px;
       position: relative;
-      background: transparent;
 
       .itemLi {
         width: 234px;
         height: 47px;
         position: relative;
         cursor: pointer;
-        a {
+        .hrefLi {
           padding-left: 30px;
           text-decoration: none;
           font-size: 14px;
           line-height: 47px;
           font-family: "Helvetica Neue";
-          color: #fff;
+          color:#333;
         }
         .icon-jiantouyou {
           position: absolute;
           right: 20px;
-          top: 10px;
-          color: #fff;
+          top: 12px;
+          color: #e0e0e0;
         }
       }
     }
@@ -175,7 +173,7 @@ export default {
     left: 226px;
     height: 460px;
     z-index: 20;
-    box-shadow: 0 30px 6px rgb(0 0 0 / 10%);
+    box-shadow: 0 3px 6px rgb(0 0 0 / 10%);
   }
 }
 </style>

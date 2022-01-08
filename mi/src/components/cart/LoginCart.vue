@@ -21,10 +21,10 @@
     <div class="body">
       <div class="singleItem" v-for="(item, index) in cartItems" :key="index">
         <CartItem
-          :id="item"
+          :item="item"
           :currentIndex="index"
           ref="child"
-          @updateOrderList="updateOrderList"
+          @updateChosenList="updateChosenList"
         />
       </div>
     </div>
@@ -38,52 +38,59 @@ export default {
     return {
       cartItems: [],
       choseAll: false,
-      orderList: [],
+      chosenList: [],
     };
   },
   methods: {
     changeChoseAll() {
       this.choseAll = !this.choseAll;
       this.$refs.child.forEach((item, index) => {
-        //只patch第一次就行了
+        //只put第一次就行了
         if (index == 0) {
           item.changeChosenAllSon(this.choseAll);
         }
         item.changeItself(this.choseAll);
       });
     },
-    updateOrderList(orderList) {
-      if (!orderList.includes(0)) {
+    async updateChosenList() {
+      //当用户点击分散的选择框时，判断是否需要全选
+      let url = `${this.CURL}users/cart/${this.$cookie.get("userId")}`;
+      let result = await this.axios.get(url)
+      //判断1的个数
+      let amountOf0 = 0
+
+      result.data.msg.forEach((item)=>{
+        if(item.chosen == 0){
+          amountOf0 = amountOf0+1
+        }
+      })
+
+      //如果没有0，则全选
+      if(amountOf0 == 0){
         this.choseAll = true;
-      } else {
+      }else{
         this.choseAll = false;
       }
     },
   },
-  mounted() {
+  async mounted() {
+    //进入前提：已经登录
     setTimeout(() => {
-      console.log("1", this.$store.state);
-    }, 1000);
-
-    //前提：已经登录
-    let userId = this.$cookie.get("userId");
-    let url = `http://localhost:3000/user?userId=${userId}`;
-    this.axios.get(url).then((response) => {
-      this.cartItems = response.data[0].cartList;
-      this.orderList = response.data[0].orderList;
-    });
+      //需要延时绑定
+      this.cartItems = this.$store.state.userCart;
+    }, 300);
 
     //判断是否全选
-    if (!this.orderList.includes(0)) {
-      this.choseAll = true;
-    }
+    // if (!this.orderList.includes(0)) {
+    //   this.choseAll = true;
+    // }
   },
   components: {
     CartItem,
   },
   watch: {
-    orderList() {
-      if (!this.orderList.includes(0)) {
+    chosenList() {
+      if (!this.chosenList.includes(0)) {
         // console.log("0",this.orderList)
         this.choseAll = true;
       } else {

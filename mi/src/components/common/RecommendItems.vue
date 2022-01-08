@@ -17,17 +17,24 @@
             <div class="item">
               <img :src="item.src" />
               <p class="name">{{ item.name }}</p>
-              <p class="price">{{ item.price }}</p>
+              <p class="price">{{ item.price }}元</p>
               <p class="like">{{ item.like }}</p>
               <div
                 class="addToCart"
-                v-if="item.ItemId"
-                @click="add(item.ItemId, index)"
+                v-if="!hasLogin"
+                @click="$router.push('/login')"
+              >
+                登录后加购
+              </div>
+              <div
+                class="addToCart"
+                v-else-if="item.showid && hasLogin"
+                @click="add(item.showid, index)"
               >
                 加入购物车
               </div>
               <div class="addToCart disable" v-else>加入购物车</div>
-              <div class="addSuccess" v-if="item.ItemId">成功加入购物车</div>
+              <div class="addSuccess" v-if="item.showid">成功加入购物车</div>
             </div>
           </div>
         </div>
@@ -37,7 +44,9 @@
 </template>
 
 <script>
-import getIndex from "../../js/getIndex";
+import { addCart } from "../../mixin/addCart";
+import { setAtt } from "../../mixin/setAtt";
+// import getIndex from "../../js/getIndex";
 export default {
   data() {
     return {
@@ -45,47 +54,40 @@ export default {
       hasLogin: false,
     };
   },
+  mixins: [addCart, setAtt],
   methods: {
-    async add(ItemId, index) {
-      let res = getIndex(this.$store.state.cartList, ItemId);
-      let url = `http://localhost:3000/phoneListsSmall?ItemId=${ItemId}`;
-      let dataTmp = await this.axios.get(url);
-      let data = dataTmp.data[0];
-      //当前用户购物车中是否有此商品
-      if (res < 0) {
-        //没有此商品
-        this.$store.state.cartList.push(data);
-        this.$store.state.cartGoods.push(1);
-        let url2 = `http://localhost:3000/user/${this.$cookie.get("userId")}`;
-        let tmp = await this.axios.get(url2);
-        let arrayTmp = tmp.data.cartList;
-        let orderList = tmp.data.orderList;
-        orderList.push(0)
-        arrayTmp.push(data.ItemId);
-        this.axios.patch(url2, {
-          cartList: arrayTmp,
-          cartGoods: this.$store.state.cartGoods,
-          orderList: orderList
-        });
-      } else {
-        //有此商品
-        let arrayTmp = this.$store.state.cartGoods;
-        arrayTmp[res]++;
+    async add(showId, index) {
+      let data = this.items[index];
+      //用户必然已登录
+      //根据name查询itemid
+      let url = `${this.CURL}phones?name=${this.items[index].name}`;
+      let res = await this.axios.get(url);
+      let itemId = res.data.msg[0].itemid;
+      let result = await this.addCart(
+        this.$cookie.get("userId"),
+        itemId,
+        data.name,
+        data.memory,
+        data.color,
+        data.price
+      );
+      if (result == true) {
+        //成功就显示提示
+        let success = document.getElementsByClassName("item")[index];
+        success.childNodes[5].style.display = "block";
+        setTimeout(() => {
+          success.childNodes[5].style.display = "none";
+        }, 3000);
 
-        //更新Vuex
-        this.$store.state.cartGoods[res]++;
-        let url2 = `http://localhost:3000/user/${this.$cookie.get("userId")}`;
-        this.axios.patch(url2, {
-          cartGoods: arrayTmp,
-        });
+        //更新vuex
+        this.setUserChosen(this.axios, this.$store, this.$cookie.get("userId"));
+        this.setUserCart(this.axios, this.$store, this.$cookie.get("userId"));
+
+        //如果在购物车中，就刷新页面
+        if (this.$route.path == "/cart") {
+          location.reload();
+        }
       }
-
-      //显示提示
-      let success = document.getElementsByClassName("item")[index];
-      success.childNodes[5].style.display = "block";
-      setTimeout(() => {
-        success.childNodes[5].style.display = "none";
-      }, 3000);
     },
   },
   mounted() {
@@ -94,9 +96,9 @@ export default {
     } else {
       this.hasLogin = false;
     }
-    let url = `http://localhost:3000/recommendItems`;
+    let url = `${this.CURL}ad/recommend`;
     this.axios.get(url).then((response) => {
-      let data = response.data;
+      let data = response.data.msg;
       this.items = data;
     });
   },
@@ -107,7 +109,7 @@ export default {
 .recommend {
   width: 1226px;
   position: absolute;
-  top:0px;
+  top: 0px;
 
   .recommendTop {
     width: 1226px;

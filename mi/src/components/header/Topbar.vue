@@ -36,32 +36,36 @@
             ></i>
             <span id="cart" @click="goToCart">购物车</span>
             <span :class="{ 'cart-mini-num': true, 'cart-mini-num2': hasCart }"
-              >({{ $store.getters.cartTotalItems }})</span
+              >({{ $store.getters.cartAmount }})</span
             >
           </a>
-          <div v-if="$store.getters.cartTotalItems == 0" class="cart-list">
+          <div v-if="$store.getters.cartTotalPrice == 0" class="cart-list">
             <p>购物车中还没有商品，赶紧选购吧!</p>
           </div>
-          <div v-if="$store.getters.cartTotalItems != 0" class="cart-list-full">
-            <div class="cart-container-all" v-if="showCart">
+          <div v-if="$store.getters.cartTotalPrice != 0" class="cart-list-full">
+            <div class="cart-container-all" v-show="showCart">
               <div class="placeholder"></div>
-              <div
-                class="cart-container"
-                v-for="(cart, index) in cartList"
-                :key="index"
-              >
-                <div class="cart-item-img"><img :src="cart.cartImage" /></div>
-                <div class="cart-item-name">{{ cart.cartName }}</div>
-                <div class="cart-item-price">{{ cart.price }}元</div>
-                <div class="multiply">X</div>
-                <div class="cart-item-amount">{{ cartGoods[index] }}</div>
+              <div id="overflowContainer">
+                <div
+                  class="cart-container"
+                  v-for="(cart, index) in cartList"
+                  :key="index"
+                >
+                  <div class="cart-item-img"><img :src="cart.cartimage" /></div>
+                  <div class="cart-item-name">
+                    {{ cart.itemname }} {{ cart.memory }} <br />{{ cart.color }}
+                  </div>
+                  <div class="cart-item-price">{{ cart.price }}元</div>
+                  <div class="multiply">x</div>
+                  <div class="cart-item-amount">{{ cart.amount }}</div>
+                </div>
               </div>
               <div class="cart-list-amount">
                 <span id="cart-amount1"
-                  >共 {{ $store.getters.cartTotalItems }} 件商品</span
+                  >共 {{ $store.getters.cartAmount }} 件商品</span
                 >
                 <span id="cart-amount2"
-                  >{{ $store.getters.cartTotalAmount }}
+                  >{{ $store.getters.cartTotalPrice }}
                   <span id="yuan">元</span></span
                 >
                 <div id="goConfirm" @click="goToCart">去购物车结算</div>
@@ -75,11 +79,11 @@
           <a href="javascript:;">消息通知</a>
         </div>
         <div class="topbar-login" v-if="login">
-          <userCenter />
+          <UserCenter />
           <span class="sep">|</span>
           <span class="user-message">消息通知</span>
           <span class="sep">|</span>
-          <span class="user-order">我的订单</span>
+          <span class="user-order" @click="goToOrder">我的订单</span>
         </div>
       </div>
     </div>
@@ -87,23 +91,24 @@
 </template>
 
 <script>
-import userCenter from "../common/userCenter";
+import UserCenter from "../common/UserCenter";
 export default {
   data() {
     return {
-      orderList: [],
       login: false,
       userName: "",
       hasCart: false,
       cartList: [],
-      cartGoods: [],
       showCart: false,
     };
   },
   components: {
-    userCenter,
+    UserCenter,
   },
   methods: {
+    goToOrder(){
+      this.$router.push("/order/total/1")
+    },
     quit() {
       //退出时删除cookie
       this.$cookie.delete("userId");
@@ -113,10 +118,16 @@ export default {
     },
     showCartTrue() {
       this.showCart = true;
+      this.changeOverflow();
     },
-    goToCart(){
-      this.$router.push("/cart")
-    }
+    goToCart() {
+      this.$router.push("/cart");
+    },
+    changeOverflow() {
+      if (this.$store.state.userCart.length > 5) {
+        document.getElementById("overflowContainer").style.height = 450 + "px";
+      }
+    },
   },
   mounted() {
     //获取登入用户信息
@@ -124,17 +135,15 @@ export default {
       if (this.$cookie.get("userId")) {
         this.login = true;
         this.userName = this.$store.state.userName;
-        this.orderList = this.$store.state.orderList;
-        this.cartList = this.$store.state.cartList;
-        this.cartGoods = this.$store.state.cartGoods;
+        this.cartList = this.$store.state.userCart;
       }
-    }, 500);
+    }, 2000);
     //设置购物车背景颜色
     setTimeout(() => {
-      if (this.$store.getters.cartAmount > 0) {
+      if (this.$store.getters.cartTotalPrice > 0) {
         this.hasCart = true;
       }
-    }, 500);
+    }, 2000);
   },
 };
 </script>
@@ -185,11 +194,9 @@ export default {
         color: #424242;
         text-align: center;
         transition-duration: 0.5s;
-
-        opacity: 0;
         p {
           position: absolute;
-          top: 45%;
+          top: 0%;
           left: 20%;
           opacity: 0;
         }
@@ -208,60 +215,64 @@ export default {
           width: 100%;
           height: 20px;
         }
-        .cart-container {
-          position: relative;
-          height: 80px;
-          width: 276px;
-          margin: 0 auto;
 
-          .cart-item-img {
-            cursor: pointer;
-            position: absolute;
-            left: 0px;
-            top: 14px;
-            img {
-              width: 60px;
-              height: 60px;
+        #overflowContainer {
+          overflow-x: hidden;
+          .cart-container {
+            position: relative;
+            height: 80px;
+            width: 276px;
+            margin: 0 auto;
+
+            .cart-item-img {
+              cursor: pointer;
+              position: absolute;
+              left: 0px;
+              top: 14px;
+              img {
+                width: 60px;
+                height: 60px;
+              }
             }
-          }
-          .cart-item-name .cart-item-price .cart-item-amount {
-            font-size: 12px;
-            font-family: "Helvetica Neue";
-            color: #424242;
-          }
-
-          .cart-item-name {
-            cursor: pointer;
-            position: absolute;
-            left: 100px;
-            top: 25px;
-            width: 95px;
-            height: 40px;
-            color: #424242;
-            &:hover {
-              color: #ff6700;
+            .cart-item-name .cart-item-price .cart-item-amount {
+              font-size: 12px;
+              font-family: "Helvetica Neue";
+              color: #424242;
             }
-          }
-          .multiply {
-            position: absolute;
-            left: 265px;
-            top: 33px;
-            font-size: 12px;
-            color: #424242;
-          }
 
-          .cart-item-price {
-            position: absolute;
-            left: 220px;
-            top: 33px;
-            color: #424242;
-          }
+            .cart-item-name {
+              cursor: pointer;
+              position: absolute;
+              left: 100px;
+              top: 18px;
+              width: 95px;
+              height: 40px;
+              color: #424242;
+              &:hover {
+                color: #ff6700;
+              }
+            }
+            .multiply {
+              position: absolute;
+              left: 265px;
+              top: 33px;
+              font-size: 12px;
+              color: #424242;
+            }
 
-          .cart-item-amount {
-            color: #424242;
-            position: absolute;
-            left: 275px;
-            top: 33px;
+            .cart-item-price {
+              position: absolute;
+              left: 220px;
+              top: 33px;
+              color: #424242;
+            }
+
+            .cart-item-amount {
+              color: #424242;
+              position: absolute;
+              left: 275px;
+              top: 33px;
+            }
           }
         }
 
@@ -353,6 +364,11 @@ export default {
         .cart-list {
           height: 100px;
           transition-duration: 0.5s;
+
+          p {
+            opacity: 1;
+            top: 45%;
+          }
         }
       }
     }

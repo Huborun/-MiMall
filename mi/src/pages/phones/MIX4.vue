@@ -1,7 +1,7 @@
 <template>
   <div>
     <GoodsHeader />
-    <ItemMessage :itemLists="['Xiaomi MIX 4', 'Xiaomi MIX FOLD']" id="3" />
+    <ItemMessage :itemLists="['Xiaomi MIX 4', 'Xiaomi MIX FOLD']" id="4" />
     <img src="../../../public/imgs/MIX4_1.png" />
     <video autoplay loop muted>
       <source

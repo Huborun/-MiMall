@@ -10,9 +10,9 @@
           <p>温馨提示：产品是否购买成功，以最终下单为准哦，请尽快结算</p>
         </div>
         <div class="userMsg" v-if="hasLogin">
-          <userCenter />
+          <UserCenter />
           <span>|</span>
-          <span>我的订单</span>
+          <a href="/#/order/total/1">我的订单</a>
         </div>
         <div class="login" v-if="!hasLogin">
           <a href="/#/login">登录</a>
@@ -28,7 +28,7 @@
       <div class="login" v-else>
         <LoginCart />
       </div>
-      <div class="cartBottom">
+      <div class="cartBottom" v-if="hasLogin">
         <CartBottom />
       </div>
       <div class="recommendContainer">
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import userCenter from "../components/common/userCenter.vue";
+import UserCenter from "../components/common/UserCenter";
 import RecommendItems from "../components/common/RecommendItems";
 import NavFooter from "../components/NavFooter";
 import NotLoginCart from "../components/cart/NotLoginCart";
@@ -60,7 +60,7 @@ export default {
     },
   },
   components: {
-    userCenter,
+    UserCenter,
     RecommendItems,
     NavFooter,
     NotLoginCart,
@@ -68,7 +68,10 @@ export default {
     CartBottom,
   },
   mounted() {
-    document.documentElement.scrollTop = 0;
+    setTimeout(() => {
+      document.body.scrollTop = document.documentElement.scrollTop = 0;
+    }, 300);
+
     if (this.$cookie.get("userId")) {
       this.hasLogin = true;
     } else {
@@ -141,7 +144,8 @@ export default {
         color: #b0b0b0;
       }
 
-      span:nth-child(3) {
+      a{
+        text-decoration:none;
         cursor: pointer;
         margin-left: 10px;
         font-size: 12px;
