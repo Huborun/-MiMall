@@ -68,9 +68,9 @@ export default {
     CartBottom,
   },
   mounted() {
-    setTimeout(() => {
-      document.body.scrollTop = document.documentElement.scrollTop = 0;
-    }, 300);
+    // setTimeout(() => {
+    //   document.body.scrollTop = document.documentElement.scrollTop = 0;
+    // }, 300);
 
     if (this.$cookie.get("userId")) {
       this.hasLogin = true;

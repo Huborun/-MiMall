@@ -53,7 +53,7 @@
                 >
                   <div class="cart-item-img"><img :src="cart.cartimage" /></div>
                   <div class="cart-item-name">
-                    {{ cart.itemname }} {{ cart.memory }} <br />{{ cart.color }}
+                    {{ cart.itemname }} {{ cart.memory }} {{ cart.color }}
                   </div>
                   <div class="cart-item-price">{{ cart.price }}元</div>
                   <div class="multiply">x</div>
@@ -125,6 +125,7 @@ export default {
     },
     changeOverflow() {
       if (this.$store.state.userCart.length > 5) {
+        console.log(1)
         document.getElementById("overflowContainer").style.height = 450 + "px";
       }
     },
@@ -235,6 +236,7 @@ export default {
               }
             }
             .cart-item-name .cart-item-price .cart-item-amount {
+
               font-size: 12px;
               font-family: "Helvetica Neue";
               color: #424242;
@@ -244,7 +246,7 @@ export default {
               cursor: pointer;
               position: absolute;
               left: 100px;
-              top: 18px;
+              top: 10px;
               width: 95px;
               height: 40px;
               color: #424242;
@@ -276,7 +278,7 @@ export default {
           }
         }
 
-        .cart-container:nth-child(n + 3) {
+        .cart-container:nth-child(n + 2) {
           border-top: 1px solid #e0e0e0;
         }
 

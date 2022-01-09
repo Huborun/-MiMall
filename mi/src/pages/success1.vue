@@ -39,15 +39,16 @@ export default {
   data() {
     return {
       phoneMsg: null,
-      itemId: 0,
+      showid: 0,
     };
   },
   methods: {
     backOne() {
-      this.$router.push(`/purchase/${this.itemId}`);
+      this.$router.push(`/purchase/${this.showid}`);
     },
     goSettlement() {
       this.$router.push("/cart");
+      location.reload();
     },
   },
   components: {
@@ -60,12 +61,12 @@ export default {
     if (this.$route.params.phoneMsg) {
       this.phoneMsg = this.$route.params.phoneMsg;
       sessionStorage.setItem("phoneMsg", this.$route.params.phoneMsg);
-      this.itemId = this.$route.params.itemId;
-      sessionStorage.setItem("itemId", this.itemId);
+      this.showid = this.$route.params.showid;
+      sessionStorage.setItem("showid", this.showid);
     } else if (sessionStorage.getItem("phoneMsg")) {
       //没有传过来就去sessionStorage中找
       this.phoneMsg = sessionStorage.getItem("phoneMsg");
-      this.itemId = sessionStorage.getItem("itemId");
+      this.showid = sessionStorage.getItem("showid");
     } else {
       //这说明没有加入过购物车就进入了这个页面
       this.$router.push("/404");

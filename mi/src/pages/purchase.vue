@@ -164,7 +164,7 @@ export default {
               phoneMsg: `${this.name} ${this.memories[this.currentChoice1]} ${
                 this.colors[this.currentChoice2]
               }`,
-              itemId: this.itemId,
+              showid: this.showid,
             },
             
           });

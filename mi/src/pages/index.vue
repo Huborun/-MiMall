@@ -21,8 +21,16 @@
         </a>
       </div>
       <OtherProduct :url="srcList[4]" name="厨房电器" :order="8" />
+      <OtherProduct :url="srcList[5]" name="智能家居" :order="12" />
+      <OtherProduct :url="srcList[6]" name="运动出行" :order="16" />
+      <div class="oneBig">
+        <a :href="'/#/product/' + bigAdId[2]">
+          <img :src="adSrc[2]" />
+        </a>
+      </div>
+      <OtherProduct :url="srcList[7]" name="日用百货" :order="20" />
       <Videos />
-      <RightSidebar :cartAmount = $store.getters.cartAmount />
+      <RightSidebar :cartAmount="$store.getters.cartAmount" />
     </div>
   </div>
 </template>
@@ -48,13 +56,15 @@ export default {
     return {
       adSrc: [],
       bigAdId: [],
-      productList: [["手机"], ["穿戴", "热门"], ["电视影音", "热门"]],
       srcList: [
         `${this.CURL}ad/phones`,
         `${this.CURL}ad/smartwear`,
         `${this.CURL}ad/lifeappliance`,
         `${this.CURL}ad/household`,
-        `${this.CURL}ad/kitchen`
+        `${this.CURL}ad/kitchen`,
+        `${this.CURL}ad/smarthome`,
+        `${this.CURL}ad/sports`,
+        `${this.CURL}ad/daily`
       ],
     };
   },
@@ -67,21 +77,12 @@ export default {
       url: `${this.CURL}/ad/adwide`,
     }).then((res) => {
       setTimeout(async () => {
-        // console.log(res.data.msg)
         res.data.msg.forEach((item) => {
           adSrc.push(item.src);
           bigAdId.push(item.showid);
         });
         this.adSrc = adSrc;
         this.bigAdId = bigAdId;
-        // this.adSrc = res.data.msg[0].src;
-        // let name = res.data.msg[0].name;
-        // let url = `${this.CURL}/phones?name="${name}"`;
-        // let result = await this.axios.get(url);
-        // if (result.data.msg[0].showid != 0) {
-        //   //获取跳转id
-        //   this.bigAdId = result.data.msg[0].showid;
-        // }
       }, 200);
     });
   },
