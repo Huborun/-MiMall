@@ -73,8 +73,8 @@ Vue的全局后置路由守卫：设置当前页面的title<br>
 删除操作：删除单个用户购物车信息（注：小米做的小米商城中，是不可以删除用户地址的）<br>
 ## CSS实现难点
 1.登录界面错误处理（见https://juejin.cn/post/7028858784445366280）<br>
-2.首页轮播图左边广告栏的实现（v-show配合mouseleave和mouseenter以及设置currentIndex并监视其实现，见组件CategoryList）<br><br><br>
-3.首页动态数目的标签切换（见https://juejin.cn/post/7036715970848620575）<br><br>
+2.首页轮播图左边广告栏的实现（v-show配合mouseleave和mouseenter以及设置currentIndex并监视其实现，见组件CategoryList）<br><
+3.首页动态数目的标签切换（见https://juejin.cn/post/7036715970848620575）<br>
 4.首页购物车，若数目高于5则出现滚动条（见https://juejin.cn/post/7045593272634310664）<br>
 5.用户选择区县的实现（只实现了4个直辖市和吉林省的部分区县）<br>
 6.用户填写、修改地址的实现<br>
