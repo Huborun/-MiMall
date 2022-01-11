@@ -1,4 +1,7 @@
 ## 项目简介
+使用方式：<br>
+npm i <br>
+npm run serve<br>
 ### 项目名
 项目名：2022最新的小米商城复刻实现1.0。<br>
 项目实现方式：前端使用Vue，后端使用Node和Express框架，数据库使用Mysql。<br>
