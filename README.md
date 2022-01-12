@@ -1,7 +1,22 @@
 ## 项目简介
 使用方式：<br>
-npm i <br>
+确保数据库文件已导入<br>
+安装以下文件：<br>
+git clone https://github.com/Huborun/-MiMall.git<br>
+git clone https://github.com/Huborun/MiMallBackstage.git<br>
+若git clone出错，则使用<br>
+git config --global http.sslVerify "false"<br>
+和git config --global --unset http.proxy<br>
+在Vscode中分别打开这两个文件<br>
+对于前端文件，使用：<br>
+npm clean-install<br>
+cnpm i<br>
 npm run serve<br>
+对于后端文件，使用：<br>
+npm clean-install<br>
+cnpm i<br>
+npm run start<br>
+之后打开http://localhost:6789/#/index即可<br>
 ### 项目名
 项目名：2022最新的小米商城复刻实现1.0。<br>
 项目实现方式：前端使用Vue，后端使用Node和Express框架，数据库使用Mysql。<br>
