@@ -1,9 +1,9 @@
 ## 项目简介
 使用方式：<br>
 确保数据库文件已导入<br>
-安装以下文件：<br>
-git clone https://github.com/Huborun/-MiMall.git<br>
-git clone https://github.com/Huborun/MiMallBackstage.git<br>
+git bash运行以下命令：<br>
+（前端文件夹中）git clone https://github.com/Huborun/-MiMall.git<br>
+（后端文件夹中）git clone https://github.com/Huborun/MiMallBackstage.git<br>
 若git clone出错，则使用<br>
 git config --global http.sslVerify "false"<br>
 和git config --global --unset http.proxy<br>
